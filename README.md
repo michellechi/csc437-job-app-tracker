@@ -1,1 +1,1 @@
-# csc437-job-tracking-application
+# csc437-job-tracking-app
