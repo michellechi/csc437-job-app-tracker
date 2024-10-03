@@ -1,1 +1,4 @@
-# csc437-job-tracking-app
+#Job Application Tracker
+##Michelle Chi
+##CSC 437 - Dynamic Web Development
+
