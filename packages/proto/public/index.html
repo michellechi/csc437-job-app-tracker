@@ -12,27 +12,54 @@
 </head>
 <body>
   <header>
-    Job Applications Tracker
+    <div>Job Applications Tracker</div>
+    <div class="profile-icon">
+      <svg class="icon"><use xlink:href="#icon-profile"></use></svg>
+    </div>
   </header>
   <main>
     <div class="container">
-        <section class="list-container">
-        <h2>Job Listings</h2>
+      <section class="list-container">
+        <h2>
+          <svg class="icon"><use xlink:href="#icon-job"></use></svg>
+          Job Listings
+        </h2>
         <p>Here are your active job applications:</p>
         <ul>
-            <li><a href="application-apple.html">Backend Developer - Apple</a></li>
-            <li><a href="application-google.html">Software Engineer - Google</a></li>
-            <li><a href="application-terumo.html">R&D - Terumo</a></li>
+          <li><a href="application-apple.html">Backend Developer - Apple</a></li>
+          <li><a href="application-google.html">Software Engineer - Google</a></li>
+          <li><a href="application-terumo.html">R&D - Terumo</a></li>
         </ul>
         <button>Add New Job</button>
-        </section>
+      </section>
     </div>
     <div>
-        <section class="container">
-        <h2>Interview Schedule</h2>
+      <section class="container">
+        <h2>
+          <svg class="icon"><use xlink:href="#icon-calendar"></use></svg>
+          Interview Schedule
+        </h2>
         <p>No upcoming interviews</p>
-        </section>
+      </section>
     </div>
   </main>
+
+  <!-- SVG sprite -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+    <defs>
+      <symbol id="icon-profile" viewBox="32 -32 96 120">
+        <circle cx="80" cy="2.1" r="15"/>
+        <path d="M80,18.9c-13.8,0-25,11-25,26h50C105,29.9,93.8,18.9,80,18.9z"/>
+      </symbol>
+      <symbol id="icon-job" viewBox="0 0 24 24">
+        <!-- Replace this with your actual job icon path -->
+        <path d="M3 3h18v18H3z"/>
+      </symbol>
+      <symbol id="icon-calendar" viewBox="0 0 24 24">
+        <!-- Replace this with your actual calendar icon path -->
+        <path d="M3 3h18v18H3z"/>
+      </symbol>
+    </defs>
+  </svg>
 </body>
 </html>
