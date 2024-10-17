@@ -89,3 +89,11 @@ button:hover {
   background-color: #392619; /* Slightly lighter orange on hover */
   color: var(--color-header-text);
 }
+
+.container {
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
+  margin-bottom: 20px;
+}

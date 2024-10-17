@@ -4,8 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Job Tracker</title>
-  <link rel="stylesheet" href="tokens.css">
-  <link rel="stylesheet" href="page.css">
+  <link rel="stylesheet" href="../styles/reset.css">
+  <link rel="stylesheet" href="../styles/tokens.css">
+  <link rel="stylesheet" href="../styles/page.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&display=swap" rel="stylesheet">
@@ -18,11 +19,17 @@
     </div>
   </header>
   <main>
-    <div class="container">
-      <section class="list-container">
+    <nav>
+      <ul>
+        <li><a href="#applications">Job Applications</a></li>
+        <li><a href="#schedule">Interview Schedule</a></li>
+      </ul>
+    </nav>
+    <div class="content">
+      <section id="applications" class="container">
         <h2>
           <svg class="icon-header2"><use xlink:href="icons.svg#icon-job"></use></svg>
-          Job Listings
+          Job Applications
         </h2>
         <p>Here are your active job applications:</p>
         <ul>
@@ -32,9 +39,7 @@
         </ul>
         <button>Add New Job</button>
       </section>
-    </div>
-    <div>
-      <section class="container">
+      <section id="schedule" class="container">
         <h2>
           <svg class="icon-header2"><use xlink:href="icons.svg#icon-calendar"></use></svg>
           Interview Schedule
