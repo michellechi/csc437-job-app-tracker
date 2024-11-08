@@ -10,9 +10,44 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&display=swap" rel="stylesheet">
+  <script type="importmap">
+    {
+      "imports": {
+        "@calpoly/mustang": "https://unpkg.com/@calpoly/mustang"
+      }
+    }
+  </script>
+  <script type="module">
+    import { define } from "@calpoly/mustang";
+    import { ApplicationElement } from "./scripts/application.js";
+  
+    define({
+      "application-element": ApplicationElement
+    });
+  </script>
+  <script type="module">
+    import { Events } from "@calpoly/mustang";
+    
+    window.relayEvent = Events.relay;
+  </script>
+  <script type="module">
+    function toggleDarkMode(page, checked) {
+      page.classList.toggle("dark-mode", checked);
+    }
+    
+    document.body.addEventListener("dark-mode", (event) =>
+      toggleDarkMode(event.currentTarget, event.detail.checked)
+    );
+    </script>
 </head>
 <body>
   <header>
+    <drop-down>
+      <label onchange="relayEvent(event, 'dark-mode', {checked: event.target.checked})">
+        <input type="checkbox" autocomplete="off" />
+        Dark mode
+      </label>
+    </drop-down>
     <div>Job Applications Tracker</div>
     <div class="profile-icon">
         <svg class="icon-profile"><use xlink:href="icons/icons.svg#icon-profile"></use></svg>
@@ -26,18 +61,44 @@
       </ul>
     </nav>
     <div class="content">
+      
       <section id="applications" class="container">
         <h2>
           <svg class="icon-header2"><use xlink:href="icons/icons.svg#icon-job"></use></svg>
           Job Applications
         </h2>
         <p>Here are your active job applications:</p>
-        <ul>
-          <li><a href="application-apple.html">Backend Developer - Apple</a></li>
-          <li><a href="application-google.html">Software Engineer - Google</a></li>
-          <li><a href="application-terumo.html">R&D - Terumo</a></li>
-        </ul>
-        <button>Add New Job</button>
+
+        <application-element>
+          <span slot="title">UX/UI Engineer</span>
+          <span slot="company">Netflix</span>
+          <span slot="location">San Francisco, CA</span>
+          <span slot="status">Interview Scheduled</span>
+        </application-element>
+
+        <application-element>
+          <span slot="title">Backend Engineer</span>
+          <span slot="company">Google</span>
+          <span slot="location">Garden Grove, CA</span>
+          <time slot="posted-date" datetime="2024-10-25">Oct 25, 2024</time>
+          <time slot="applied-date" datetime="2024-11-29">Nov 29, 2024</time>
+          <span slot="status">Applied</span>
+          <span slot="notes">Waiting for response.</span>
+        </application-element>
+
+        <application-element>
+          <span slot="title">Grocery Associate</span>
+          <span slot="company">Vons</span>
+          <span slot="location">Fresno, CA</span>
+          <time slot="posted-date" datetime="2024-10-25">Oct 25, 2024</time>
+          <time slot="applied-date" datetime="2024-11-29">Nov 29, 2024</time>
+          <span slot="status">Rejected</span>
+          <span slot="notes">Ghosted.</span>
+        </application-element>
+
+        <div>
+          <button>Add New Job</button>
+        </div>
       </section>
       <section id="schedule" class="container">
         <h2>
