@@ -19,10 +19,10 @@
   </script>
   <script type="module">
     import { define } from "@calpoly/mustang";
-    import { ApplicationElement } from "/scripts/application.js";
+    import { ApplicationElement } from "./scripts/application.js";
   
     define({
-      "application": ApplicationElement
+      "application-element": ApplicationElement
     });
   </script>
   <script type="module">
@@ -69,17 +69,14 @@
         </h2>
         <p>Here are your active job applications:</p>
 
-        <application>
+        <application-element>
           <span slot="title">UX/UI Engineer</span>
           <span slot="company">Netflix</span>
           <span slot="location">San Francisco, CA</span>
-          <span slot="posted-date" datetime="2024-10-25">Oct 25, 2024</span>
-          <span slot="applied-date" datetime="2024-11-29">Nov 29, 2024</span>
           <span slot="status">Interview Scheduled</span>
-          <span slot="notes">Interview scheduled for December 5th, 2024.</span>
-        </application>
+        </application-element>
 
-        <application>
+        <application-element>
           <span slot="title">Backend Engineer</span>
           <span slot="company">Google</span>
           <span slot="location">Garden Grove, CA</span>
@@ -87,9 +84,9 @@
           <time slot="applied-date" datetime="2024-11-29">Nov 29, 2024</time>
           <span slot="status">Applied</span>
           <span slot="notes">Waiting for response.</span>
-        </application>
+        </application-element>
 
-        <application>
+        <application-element>
           <span slot="title">Grocery Associate</span>
           <span slot="company">Vons</span>
           <span slot="location">Fresno, CA</span>
@@ -97,7 +94,7 @@
           <time slot="applied-date" datetime="2024-11-29">Nov 29, 2024</time>
           <span slot="status">Rejected</span>
           <span slot="notes">Ghosted.</span>
-        </application>
+        </application-element>
 
         <div>
           <button>Add New Job</button>

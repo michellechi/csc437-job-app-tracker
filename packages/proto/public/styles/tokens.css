@@ -21,15 +21,7 @@
     --spacing-large: 30px;
   }
 
-body.dark-mode {
-  --color-background: #4d4d4d;
-  --color-text: #f2f2f2a3;
-  --color-header-bg: #ffffff;
-  --color-header-text: #043f7a;
-  
-  --color-background-card: black;
-  --color-accent: var(--color-accent-inverted);
-  --color-text-control: rgb(51 51 51);
-  --color-text-control-inverted: var(--background);
-}
+/* Dark mode */
+
+
   
