@@ -2,8 +2,8 @@
 :root {
     /* Color Tokens */
     --color-background: #f2f2f2a3; /* Light Gray for background */
-    --color-header-bg: #043f7a;  /* Dark Blue for header */
     --color-text: #4d4d4d;       /* Gray for text */
+    --color-header-bg: #043f7a;  /* Dark Blue for header */
     --color-header-text: #ffffff; 
     --color-heading2: #e46212;
     
@@ -20,4 +20,16 @@
     --spacing-medium: 15px;
     --spacing-large: 30px;
   }
+
+body.dark-mode {
+  --color-background: #4d4d4d;
+  --color-text: #f2f2f2a3;
+  --color-header-bg: #ffffff;
+  --color-header-text: #043f7a;
+  
+  --color-background-card: black;
+  --color-accent: var(--color-accent-inverted);
+  --color-text-control: rgb(51 51 51);
+  --color-text-control-inverted: var(--background);
+}
   
