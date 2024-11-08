@@ -1,27 +1,37 @@
 /* tokens.css */
 :root {
-    /* Color Tokens */
-    --color-background: #f2f2f2a3; /* Light Gray for background */
-    --color-text: #4d4d4d;       /* Gray for text */
-    --color-header-bg: #043f7a;  /* Dark Blue for header */
-    --color-header-text: #ffffff; 
-    --color-heading2: #e46212;
-    
-    /* Typography */
-    --font-body: 'Arial', sans-serif;
-    --font-size-tiny: 18px;
-    --font-size-base: 20px;
-    --font-size-medium: 24px;
-    --font-size-large: 28px;
-    --font-size-header: 36px;
-    
-    /* Spacing */
-    --spacing-small: 8px;
-    --spacing-medium: 15px;
-    --spacing-large: 30px;
-  }
+  /* Color Tokens */
+  --color-background: #f2f2f2a3; /* Light Gray for background */
+  --color-text: #4d4d4d;       /* Gray for text */
+  --color-header-bg: #043f7a;  /* Dark Blue for header */
+  --color-header-text: #ffffff; 
+  --color-heading2-text: #e46212;
+  --color-container: #ffffff;
+  --color-icon: black;
+  
+  /* Typography */
+  --font-body: 'Arial', sans-serif;
+  --font-size-tiny: 18px;
+  --font-size-base: 20px;
+  --font-size-medium: 24px;
+  --font-size-large: 28px;
+  --font-size-header: 36px;
+  
+  /* Spacing */
+  --spacing-small: 8px;
+  --spacing-medium: 15px;
+  --spacing-large: 30px;
+}
 
 /* Dark mode */
-
+body.dark-mode {
+  --color-background: black;
+  --color-text: #f2f2f2;
+  --color-header-bg: #043f7a;
+  --color-header-text: #ffffff; 
+  --color-heading2-text: #e46212;
+  --color-container: black;
+  --color-icon: white;
+}
 
   

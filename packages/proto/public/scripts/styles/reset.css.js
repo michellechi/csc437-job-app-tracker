@@ -79,12 +79,6 @@ const styles = css`
         color: var(--color-heading2);
     }
 
-    .calendar {
-        border: 2px solid var(--color-accent-border);
-        background-color: var(--color-calendar-bg);
-        padding: var(--spacing-medium);
-    }
-
     button {
         background-color: var(--color-highlight);
         color: var(--color-text-header);
