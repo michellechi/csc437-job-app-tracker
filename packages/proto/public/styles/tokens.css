@@ -2,12 +2,15 @@
 :root {
   /* Color Tokens */
   --color-background: #f2f2f2a3; /* Light Gray for background */
+  --color-main: #f8f9fa;
   --color-text: #4d4d4d;       /* Gray for text */
   --color-header-bg: #043f7a;  /* Dark Blue for header */
-  --color-header-text: #ffffff; 
+  --color-header-text: white; 
   --color-heading2-text: #e46212;
-  --color-container: #ffffff;
+  --color-container: white;
+  --color-nav: #e9ecef;
   --color-icon: black;
+  --color-button-background: white;
   
   /* Typography */
   --font-body: 'Arial', sans-serif;
@@ -25,13 +28,16 @@
 
 /* Dark mode */
 body.dark-mode {
-  --color-background: black;
+  --color-background: #black;
+  --color-main: #424242;
   --color-text: #f2f2f2;
-  --color-header-bg: #043f7a;
-  --color-header-text: #ffffff; 
+  --color-header-bg: #032546;
+  --color-header-text: white; 
   --color-heading2-text: #e46212;
-  --color-container: black;
+  --color-container: #212121;
+  --color-nav: #212121;
   --color-icon: white;
+  --color-button-background: #043f7a;
 }
 
   

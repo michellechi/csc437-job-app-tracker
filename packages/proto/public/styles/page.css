@@ -1,3 +1,6 @@
+* {
+
+}
 body {
   background-color: var(--color-background);
   color: var(--color-text);
@@ -21,17 +24,14 @@ header {
 header h1 {
   margin: 0;
   text-align: center;
-  flex-grow: 1;
-  vertical-align: middle;
 }
 
 header .profile-icon {
   position: absolute;
   right: 20px;
   display: flex;
-  width: 70px;
   height: 70px;
-  vertical-align: middle;
+  width: 70px;
   fill: var(--color-header-text); 
 }
 
@@ -39,7 +39,9 @@ h2 .icon-header2{
   width: 40px;
   height: 40px;
   vertical-align: middle;
-  color: var(--color-icon);
+  fill: var(--color-icon);
+  align-items: center;
+  justify-content: center;
 }
 
 /* Reused styles */
@@ -52,11 +54,12 @@ a:hover {
   text-decoration: underline;
 }
 
-.container {
+.container{
   padding: var(--spacing-medium);
   width: 100%;
   margin: 0 auto;
   font-size: var(--font-size-base);
+  background-color: var(--color-container);
 }
 
 .list-container {
@@ -75,19 +78,39 @@ button {
   cursor: pointer;
   font-family: Afacad Flux, Arial, sans-serif;
   font-size: var(--font-size-tiny);
+  background-color: var(--color-button-background);
 }
 
 button:hover {
   background-color: var(--color-text);
-  color: var(--color-header-text);
+  color: var(--color-button-background);
+}
+
+main {
+  background-color: var(--color-main);       /* Light background for the main body */
 }
 
 .container {
   padding: 20px;
-  background-color: #ffffff;
+  background-color: var(--color-container);
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
   margin-bottom: 20px;
 }
 
-/* Dark mode */
+nav {
+  padding: 20px;
+  background-color: var(--color-nav);
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
+  margin-bottom: 20px;
+}
+
+.drop-down-label {
+  position: absolute;
+  left: 20px;
+  text-align: center;
+  font-size: var(--font-size-base);
+  padding: 5px 10px;
+  border-radius: 5px;
+}
