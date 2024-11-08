@@ -26,20 +26,28 @@
     });
   </script>
   <script type="module">
+    import { Events } from "@calpoly/mustang";
+    
+    window.relayEvent = Events.relay;
+  </script>
+  <script type="module">
     function toggleDarkMode(page, checked) {
       page.classList.toggle("dark-mode", checked);
     }
-
+    
     document.body.addEventListener("dark-mode", (event) =>
-      toggleDarkMode(
-        event.currentTarget,
-        event.detail.checked
-      )
+      toggleDarkMode(event.currentTarget, event.detail.checked)
     );
-  </script>
+    </script>
 </head>
 <body>
   <header>
+    <drop-down>
+      <label onchange="relayEvent(event, 'dark-mode', {checked: event.target.checked})">
+        <input type="checkbox" autocomplete="off" />
+        Dark mode
+      </label>
+    </drop-down>
     <div>Job Applications Tracker</div>
     <div class="profile-icon">
         <svg class="icon-profile"><use xlink:href="icons/icons.svg#icon-profile"></use></svg>
@@ -48,10 +56,6 @@
   <main>
     <nav>
       <ul>
-        <label>
-          <input type="checkbox" autocomplete="off" />
-            Dark Mode
-        </label>
         <li><a href="#applications">Job Applications</a></li>
         <li><a href="#schedule">Interview Schedule</a></li>
       </ul>
@@ -94,7 +98,7 @@
           <span slot="status">Rejected</span>
           <span slot="notes">Ghosted.</span>
         </application>
-        
+
         <div>
           <button>Add New Job</button>
         </div>
