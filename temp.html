@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="styles/reset.css" />
+    <link rel="stylesheet" href="styles/tokens.css" />
+    <link rel="stylesheet" href="styles/page.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Playfair+Display:wght@400;700&display=swap"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <title>Uni Market</title>
+    <link rel="icon" href="assets/storeLogo.svg" type="image/svg+xml" />
+    <script type="importmap">
+      {
+        "imports": {
+          "@calpoly/mustang": "https://unpkg.com/@calpoly/mustang"
+        }
+      }
+    </script>
+    <script type="module">
+      import { define } from "@calpoly/mustang";
+      import { ListingHeader } from "../js/listing-header.js";
+
+      define({
+        "listing-header": ListingHeader,
+      });
+    </script>
+    <script type="module">
+      import { Events } from "@calpoly/mustang";
+
+      window.relayEvent = Events.relay;
+    </script>
+    <script type="module">
+      function toggleDarkMode(page, checked) {
+        page.classList.toggle("dark-mode", checked);
+      }
+
+      document.body.addEventListener("dark-mode", (event) =>
+        toggleDarkMode(event.currentTarget, event.detail.checked)
+      );
+    </script>
+  </head>
+  <body>
+    <header>
+      <h1 class="navBar">
+        <svg class="icon-market">
+          <use href="../icons/icons.svg#icon-market" />
+        </svg>
+        <span><a href="index.html"></a>UniMarket</span>
+      </h1>
+      <drop-down>
+        <label onchange="relayEvent(event, 'dark-mode', {checked: event.target.checked})">
+          <input type="checkbox" autocomplete="off" />
+          Dark mode
+        </label>
+      </drop-down>
+    </header>
+    <section class="listings">
+      <listing-header>
+        <img
+          slot="image"
+          src="./assets/loftbed.jpg"
+          alt="Desk with shelves and wheels"
+        />
+        <span slot="listingName"
+          ><a href="./listing/TwinBed.html">Twin Bed</a></span
+        >
+        <span slot="price">Price: $280</span>
+      </listing-header>
+      <listing-header>
+        <img slot="image" src="./assets/desk.jpg" alt="Desk" />
+        <span slot="listingName"><a href="listing/Desk.html">Desk</a></span>
+        <span slot="price">Price: $70</span>
+      </listing-header>
+
+      <listing-header>
+        <img slot="image" src="./assets/coffeeTable.jpg" alt="Coffee Table" />
+        <span slot="listingName"
+          ><a href="listing/CoffeeTable.html">Coffee Table</a></span
+        >
+        <span slot="price">Price: $60</span>
+      </listing-header>
+
+      <listing-header>
+        <img slot="image" src="./assets/sweater.jpg" alt="Sweater" />
+        <span slot="listingName"
+          ><a href="listing/Sweater.html">Sweater</a></span
+        >
+        <span slot="price">Price: $30</span>
+      </listing-header>
+
+      <listing-header>
+        <img slot="image" src="./assets/computer.jpg" alt="Computer" />
+        <span slot="listingName"
+          ><a href="listing/Computer.html">Computer</a></span
+        >
+        <span slot="price">Price: $500</span>
+      </listing-header>
+
+      <listing-header>
+        <img slot="image" src="./assets/cookingPot.jpg" alt="Cooking Pot" />
+        <span slot="listingName"
+          ><a href="listing/Pot.html">Cooking Pot</a></span
+        >
+        <span slot="price">Price: $25</span>
+      </listing-header>
+
+      <listing-header>
+        <img slot="image" src="./assets/couch.jpg" alt="Couch" />
+        <span slot="listingName"><a href="listing/Couch.html">Couch</a></span>
+        <span slot="price">Price: $350</span>
+      </listing-header>
+
+      <listing-header>
+        <img slot="image" src="./assets/tv.jpg" alt="Television" />
+        <span slot="listingName"><a href="listing/TV.html">Television</a></span>
+        <span slot="price">Price: $200</span>
+      </listing-header>
+
+      <listing-header>
+        <img slot="image" src="./assets/pillow.jpg" alt="Pillow" />
+        <span slot="listingName"><a href="listing/Pillow.html">Pillow</a></span>
+        <span slot="price">Price: $10</span>
+      </listing-header>
+
+      <listing-header>
+        <img slot="image" src="./assets/printer.jpg" alt="Printer" />
+        <span slot="listingName"
+          ><a href="listing/Printer.html">Printer</a></span
+        >
+        <span slot="price">Price: $100</span>
+      </listing-header>
+
+      <listing-header>
+        <img slot="image" src="./assets/headphones.jpg" alt="Headphones" />
+        <span slot="listingName"
+          ><a href="listing/Headphones.html">Headphones</a></span
+        >
+        <span slot="price">Price: $50</span>
+      </listing-header>
+
+      <listing-header>
+        <img slot="image" src="./assets/painting.jpg" alt="Painting" />
+        <span slot="listingName"
+          ><a href="listing/Painting.html">Painting</a></span
+        >
+        <span slot="price">Price: $120</span>
+      </listing-header>
+
+      <listing-header>
+        <img slot="image" src="./assets/lights.jpg" alt="LED Lights" />
+        <span slot="listingName"
+          ><a href="listing/Lights.html">LED Lights</a></span
+        >
+        <span slot="price">Price: $20</span>
+      </listing-header>
+
+      <listing-header>
+        <img slot="image" src="./assets/washer.jpg" alt="Washing Machine" />
+        <span slot="listingName"
+          ><a href="listing/Washer.html">Washing Machine</a></span
+        >
+        <span slot="price">Price: $400</span>
+      </listing-header>
+
+      <listing-header>
+        <img slot="image" src="./assets/microwave.jpg" alt="Microwave" />
+        <span slot="listingName"
+          ><a href="listing/Microwave.html">Microwave</a></span
+        >
+        <span slot="price">Price: $80</span>
+      </listing-header>
+
+      <listing-header>
+        <img slot="image" src="./assets/diningTable.jpg" alt="Dining Table" />
+        <span slot="listingName"
+          ><a href="listing/Table.html">Dining Table</a></span
+        >
+        <span slot="price">Price: $250</span>
+      </listing-header>
+    </section>
+  </body>
+</html>
