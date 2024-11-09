@@ -3,6 +3,7 @@ import { Company } from "./company";
 import { Interview } from "./interview";
 
 export interface Application {
+    id: number;
     title: string;
     company: Company;
     location: Point;

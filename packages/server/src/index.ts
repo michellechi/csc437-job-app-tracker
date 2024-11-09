@@ -1,6 +1,9 @@
-import express, { Application, Request, Response } from "express";
+import express, { Request, Response } from "express";
 import { ApplicationPage } from "./pages/application";
-import { getApplication } from "./services/application-svc"
+import Applications from "./services/application-svc";
+import { connect } from "./services/mongo";
+
+connect("JobApp");
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -16,14 +19,12 @@ app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
 
-app.get(
-    "/application/:appId",
-    (req: Request, res: Response) => {
-        const { appId } = req.params;
-        const data = getApplication(appId);
-        const page = new ApplicationPage(data);
-        
-        res.set("Content-Type", "text/html").send(page.render());
+app.get("/application/:appId", (req: Request, res: Response) => {
+    const { appId } = req.params;
 
-    }
-)
+    Applications.get(appId)
+        .then((data) => {
+            const page = new ApplicationPage(data);
+        res.set("Content-Type", "text/html").send(page.render());
+    });
+});

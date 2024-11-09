@@ -18,11 +18,73 @@ var __copyProps = (to, from, except, desc) => {
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var application_svc_exports = {};
 __export(application_svc_exports, {
+  default: () => application_svc_default,
   getApplication: () => getApplication
 });
 module.exports = __toCommonJS(application_svc_exports);
+var import_mongoose = require("mongoose");
+const ContactSchema = new import_mongoose.Schema(
+  {
+    name: { type: String, required: true, trim: true },
+    phoneNumber: { type: String, required: true, trim: true }
+  },
+  { _id: false }
+  // Prevents _id field from being automatically added to each contact
+);
+const ApplicationSchema = new import_mongoose.Schema(
+  {
+    title: { type: String, required: true, trim: true },
+    company: {
+      name: { type: String, required: true, trim: true },
+      location: {
+        type: { type: String, enum: ["Point"], required: true },
+        coordinates: { type: [Number], required: true }
+      },
+      industry: { type: String, required: true },
+      contacts: [ContactSchema]
+    },
+    location: {
+      lat: { type: Number },
+      lon: { type: Number }
+    },
+    postedDate: { type: Date },
+    appliedDate: { type: Date },
+    method: { type: String, trim: true },
+    status: { type: String, required: true },
+    salaryRange: {
+      min: { type: Number },
+      max: { type: Number }
+    },
+    interviewDetails: {
+      date: { type: Date },
+      format: { type: String },
+      location: {
+        lat: { type: Number },
+        lon: { type: Number }
+      },
+      interviewerEmail: { type: String }
+    },
+    followUpDate: { type: Date },
+    notes: { type: String }
+  },
+  { collection: "applications" }
+);
+const ApplicationModel = (0, import_mongoose.model)(
+  "Application",
+  ApplicationSchema
+);
+function get(appId) {
+  return ApplicationModel.find({ appId }).then((list) => list[0]).catch(() => {
+    throw `${appId} Not Found`;
+  });
+}
+function index() {
+  return ApplicationModel.find();
+}
+var application_svc_default = { index, get };
 const applications = {
   google: {
+    id: 1,
     title: "Frontend Engineer",
     company: {
       name: "Google",
@@ -48,6 +110,7 @@ const applications = {
     notes: "Interview scheduled with the hiring manager."
   },
   amazon: {
+    id: 2,
     title: "Backend Developer",
     company: {
       name: "Amazon",
