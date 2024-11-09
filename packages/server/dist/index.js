@@ -25,11 +25,13 @@ var import_express = __toESM(require("express"));
 var import_application = require("./pages/application");
 var import_application_svc = __toESM(require("./services/application-svc"));
 var import_mongo = require("./services/mongo");
+var import_applications = __toESM(require("./routes/applications"));
 (0, import_mongo.connect)("JobApp");
 const app = (0, import_express.default)();
 const port = process.env.PORT || 3e3;
 const staticDir = process.env.STATIC || "public";
 app.use(import_express.default.static(staticDir));
+app.use("/api/applications", import_applications.default);
 app.get("/hello", (req, res) => {
   res.send("Hello, World");
 });

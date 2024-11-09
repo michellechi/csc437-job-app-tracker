@@ -81,7 +81,28 @@ function get(appId) {
 function index() {
   return ApplicationModel.find();
 }
-var application_svc_default = { index, get };
+function create(json) {
+  const t = new ApplicationModel(json);
+  return t.save();
+}
+function update(appId, application) {
+  return ApplicationModel.findOneAndUpdate({ appId }, application, {
+    new: true
+  }).then((updated) => {
+    if (!updated)
+      throw `Application with id ${appId} not updated or not found`;
+    else
+      return updated;
+  });
+}
+function remove(appId) {
+  return ApplicationModel.findOneAndDelete({ appId }).then(
+    (deleted) => {
+      if (!deleted) throw `${appId} not deleted`;
+    }
+  );
+}
+var application_svc_default = { index, get, create, update, remove };
 const applications = {
   google: {
     id: 1,

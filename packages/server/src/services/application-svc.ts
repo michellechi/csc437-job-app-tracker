@@ -63,9 +63,35 @@ function get(appId: string): Promise<Application> {
 
 function index(): Promise<Application[]> {
     return ApplicationModel.find();
+}
+
+function create(json: Application): Promise<Application> {
+    const t = new ApplicationModel(json);
+    return t.save();
+}
+
+function update(appId: string, application: Application): Promise<Application> {
+    return ApplicationModel.findOneAndUpdate({ appId }, application, {
+        new: true,
+    })
+    .then((updated) => {
+        if (!updated)
+            throw `Application with id ${appId} not updated or not found`;
+        else
+            return updated as Application;
+    });
+}
+
+function remove(appId: String): Promise<void> {
+    return ApplicationModel.findOneAndDelete({ appId }).then(
+      (deleted) => {
+        if (!deleted) throw `${appId} not deleted`;
+      }
+    );
   }
 
-export default { index, get };
+
+export default { index, get, create, update, remove };
 
 
 const applications: { [key: string]: Application } = {

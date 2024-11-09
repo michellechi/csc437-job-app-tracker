@@ -1,7 +1,8 @@
-import express, { Request, Response } from "express";
+import express, { application, Request, Response } from "express";
 import { ApplicationPage } from "./pages/application";
 import Applications from "./services/application-svc";
 import { connect } from "./services/mongo";
+import applications from "./routes/applications";
 
 connect("JobApp");
 
@@ -10,6 +11,7 @@ const port = process.env.PORT || 3000;
 const staticDir = process.env.STATIC || "public";
 
 app.use(express.static(staticDir));
+app.use("/api/applications", applications);
 
 app.get("/hello", (req: Request, res: Response) => {
     res.send("Hello, World");
@@ -28,3 +30,4 @@ app.get("/application/:appId", (req: Request, res: Response) => {
         res.set("Content-Type", "text/html").send(page.render());
     });
 });
+
