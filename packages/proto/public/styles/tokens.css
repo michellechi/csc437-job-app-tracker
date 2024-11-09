@@ -29,13 +29,13 @@
 /* Dark mode */
 body.dark-mode {
   --color-background: #black;
-  --color-main: #424242;
+  --color-main: #2a1818;
   --color-text: #f2f2f2;
   --color-header-bg: #032546;
   --color-header-text: white; 
   --color-heading2-text: #e46212;
-  --color-container: #212121;
-  --color-nav: #212121;
+  --color-container: #303030;
+  --color-nav: #303030;
   --color-icon: white;
   --color-button-background: #043f7a;
 }

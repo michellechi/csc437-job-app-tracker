@@ -19,28 +19,6 @@ export class ApplicationElement extends HTMLElement {
         </template>
     `;
 
-//   <template>
-//   <div class="application">
-//     <h2>
-//       <slot name="title">Software Engineer at Google</slot>
-//     </h2>
-//     <dl>
-//       <dt>Company:</dt>
-//       <dd><slot name="company">Google</slot></dd>
-//       <dt>Location:</dt>
-//       <dd><slot name="location">Mountain View, CA</slot></dd>
-//       <dt>Posted Date:</dt>
-//       <dd><slot name="posted-date">Sept 1, 2024</slot></dd>
-//       <dt>Applied Date:</dt>
-//       <dd><slot name="applied-date">Sept 10, 2024</slot></dd>
-//       <dt>Status:</dt>
-//       <dd><slot name="status">Interview Scheduled</slot></dd>
-//       <dt>Additional Info:</dt>
-//       <dd><slot name="notes">Interview on Sept 25, 2024.</slot></dd>
-//     </dl>
-//   </div>
-// </template>
-
     static styles = css`
         * {
             color: var(--color-text);
@@ -63,10 +41,39 @@ export class ApplicationElement extends HTMLElement {
         }
     `;
 
-    constructor(){
+    constructor() {
         super();
         shadow(this)
             .template(ApplicationElement.template)
             .styles(reset.styles, ApplicationElement.styles);
+    }
+
+    get src() {
+        return this.getAttribute('src');
+    }
+
+    connectedCallback() {
+        if (this.src) this.hydrate(this.src);
+    }
+
+    hydrate(url) {
+        fetch(url)
+            .then((res) => {
+                if (res.status !== 200) throw `Status: ${res.status}`;
+                return res.json();
+        })
+        .then((json) => this.renderSlots(json))
+        .catch((error) =>
+            console.log(`Failed to render data ${url}:`, error)
+        );
+    }
+
+    renderSlots(json) {
+        const entries = Object.entries(json);
+        const toSlot = ([key, value]) =>
+          html`<span slot="${key}">${value}</span>`
+      
+        const fragment = entries.map(toSlot);
+        this.replaceChildren(...fragment);
     }
 }
