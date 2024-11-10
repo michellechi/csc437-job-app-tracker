@@ -5,16 +5,16 @@ import { Interview } from "./interview";
 export interface Application {
     id: number;
     title: string;
-    company: Company;
+    company: string;
     location: Point;
-    postedDate?: Date;
-    appliedDate: Date | undefined;
-    method?: MethodType;
+    // postedDate?: Date;
+    // appliedDate: Date | undefined;
+    // method?: MethodType;
     status: StatusType;
-    salaryRange?: SalaryRange;
-    interviewDetails: Interview;
-    followUpDate?: Date;
-    notes?: string;
+    // salaryRange?: SalaryRange;
+    // interviewDetails: Interview;
+    // followUpDate?: Date;
+    // notes?: string;
 }
 
 export type StatusType = "Pending" | "Submitted" | "Interview Scheduled" | "Accepted" | "Rejected";

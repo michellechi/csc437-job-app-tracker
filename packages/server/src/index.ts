@@ -21,13 +21,22 @@ app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
 
-app.get("/application/:appId", (req: Request, res: Response) => {
-    const { appId } = req.params;
+app.get("/applications/:id", (req: Request, res: Response) => {
+    const { id } = req.params;
 
-    Applications.get(appId)
+    Applications.get(id)
         .then((data) => {
             const page = new ApplicationPage(data);
         res.set("Content-Type", "text/html").send(page.render());
     });
 });
 
+app.post("/api/applications", async (req, res) => {
+    const applicationData = req.body;
+    try {
+        const newApplication = await Applications.create(applicationData);
+        res.status(201).json(newApplication);
+    } catch (error) {
+        res.status(400).send(error);
+    }
+});

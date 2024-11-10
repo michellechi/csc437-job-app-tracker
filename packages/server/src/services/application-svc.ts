@@ -1,4 +1,4 @@
-import { Application } from "../models/application";
+import { Application, StatusType } from "../models/application";
 import { Schema, model } from "mongoose";
 
 const ContactSchema = new Schema(
@@ -6,44 +6,49 @@ const ContactSchema = new Schema(
       name: { type: String, required: true, trim: true },
       phoneNumber: { type: String, required: true, trim: true }
     },
-    { _id: false } // Prevents _id field from being automatically added to each contact
+    { _id: false }
 );
 
 const ApplicationSchema = new Schema<Application>(
 {
+    id: { type: Number, required: true, trim: true },
     title: { type: String, required: true, trim: true },
-    company: {
-    name: { type: String, required: true, trim: true },
+    company: { type: String, required: true, trim: true },
+        // {
+        // name: { type: String, required: true, trim: true },
+        // location: {
+        //     type: { type: String, enum: ["Point"], required: true },
+        //     coordinates: { type: [Number], required: true }
+        // },
+        // industry: { type: String, required: true },
+        // contacts: [ContactSchema]
+        // },
     location: {
-        type: { type: String, enum: ["Point"], required: true },
-        coordinates: { type: [Number], required: true }
+        lat: { type: Number, required: true },
+        lon: { type: Number, required: true }
     },
-    industry: { type: String, required: true },
-    contacts: [ContactSchema]
-    },
-    location: {
-    lat: { type: Number },
-    lon: { type: Number }
-    },
-    postedDate: { type: Date },
-    appliedDate: { type: Date },
-    method: { type: String, trim: true },
-    status: { type: String, required: true },
-    salaryRange: {
-    min: { type: Number },
-    max: { type: Number }
-    },
-    interviewDetails: {
-    date: { type: Date },
-    format: { type: String },
-    location: {
-        lat: { type: Number },
-        lon: { type: Number }
-    },
-    interviewerEmail: { type: String }
-    },
-    followUpDate: { type: Date },
-    notes: { type: String }
+    // postedDate: { type: Date },
+    // appliedDate: { type: Date },
+    // method: { type: String, trim: true },
+    status: {
+        type: String,
+        required: true,
+        enum: ['Pending', 'Submitted', 'Interview Scheduled', 'Accepted', 'Rejected']},
+    // salaryRange: {
+    // min: { type: Number },
+    // max: { type: Number }
+    // },
+    // interviewDetails: {
+    // date: { type: Date },
+    // format: { type: String },
+    // location: {
+    //     lat: { type: Number },
+    //     lon: { type: Number }
+    // },
+    // interviewerEmail: { type: String }
+    // },
+    // followUpDate: { type: Date },
+    // notes: { type: String }
 },
 { collection: "applications" }
 ); 
@@ -70,22 +75,22 @@ function create(json: Application): Promise<Application> {
     return t.save();
 }
 
-function update(appId: string, application: Application): Promise<Application> {
-    return ApplicationModel.findOneAndUpdate({ appId }, application, {
+function update(id: string, application: Application): Promise<Application> {
+    return ApplicationModel.findOneAndUpdate({ id }, application, {
         new: true,
     })
     .then((updated) => {
         if (!updated)
-            throw `Application with id ${appId} not updated or not found`;
+            throw `Application with id ${id} not updated or not found`;
         else
             return updated as Application;
     });
 }
 
-function remove(appId: String): Promise<void> {
-    return ApplicationModel.findOneAndDelete({ appId }).then(
+function remove(id: String): Promise<void> {
+    return ApplicationModel.findOneAndDelete({ id }).then(
       (deleted) => {
-        if (!deleted) throw `${appId} not deleted`;
+        if (!deleted) throw `${id} not deleted`;
       }
     );
   }
@@ -98,58 +103,67 @@ const applications: { [key: string]: Application } = {
   google: {
     id: 1,
     title: "Frontend Engineer",
-    company: {
-      name: "Google",
-      location: { lat: 37.422, lon: -122.084 },
-      industry: "Technology",
-      contacts: [{ name: "John Doe", phoneNumber: "123-456-7890" }],
+    company: "Google",
+    // {
+    //   name: "Google",
+    //   location: { lat: 37.422, lon: -122.084 },
+    //   industry: "Technology",
+    //   contacts: [{ name: "John Doe", phoneNumber: "123-456-7890" }],
+    // },
+    location: 
+    { 
+        lat: 37.422, 
+        lon: -122.084 
     },
-    location: { lat: 37.422, lon: -122.084 },
-    postedDate: new Date("2024-08-01"),
-    appliedDate: new Date("2024-08-10"),
-    method: "LinkedIn",
-    status: "Interview Scheduled",
-    salaryRange: { 
-        min: 120000, 
-        max: 150000 
-    },
-    interviewDetails: {
-      date: new Date("2024-09-01"),
-      format: "Video",
-      interviewerEmail: "johndoe@google.com",
-    },
-    followUpDate: new Date("2024-09-08"),
-    notes: "Interview scheduled with the hiring manager.",
+    // postedDate: new Date("2024-08-01"),
+    // appliedDate: new Date("2024-08-10"),
+    // method: "LinkedIn",
+    status: "Interview Scheduled"
+    // salaryRange: { 
+    //     min: 120000, 
+    //     max: 150000 
+    // },
+    // interviewDetails: {
+    //   date: new Date("2024-09-01"),
+    //   format: "Video",
+    //   interviewerEmail: "johndoe@google.com",
+    // },
+    // followUpDate: new Date("2024-09-08"),
+    // notes: "Interview scheduled with the hiring manager.",
   },
   amazon: {
     id: 2,
     title: "Backend Developer",
-    company: {
-      name: "Amazon",
-      location: { lat: 47.6062, lon: -122.3321 },
-      industry: "E-commerce",
-      contacts: [{ name: "Jane Smith", phoneNumber: "987-654-3210" }],
+    company: "Amazon",
+    // {
+    //   name: "Amazon",
+    //   location: { lat: 47.6062, lon: -122.3321 },
+    //   industry: "E-commerce",
+    //   contacts: [{ name: "Jane Smith", phoneNumber: "987-654-3210" }],
+    // },
+    location: { 
+        lat: 47.6062, 
+        lon: -122.3321 
     },
-    location: { lat: 47.6062, lon: -122.3321 },
-    postedDate: new Date("2024-08-05"),
-    appliedDate: new Date("2024-08-15"),
-    method: "Company Site",
-    status: "Pending",
-    salaryRange: { 
-        min: 100000, 
-        max: 130000 
-    },
-    interviewDetails: {
-      date: new Date("2024-09-12"),
-      format: "In-Person",
-      location: { lat: 47.6062, lon: -122.3321 },
-      interviewerEmail: "hr@amazon.com",
-    },
-    followUpDate: new Date("2024-09-20"),
-    notes: "Waiting for response after initial phone screen.",
+    // postedDate: new Date("2024-08-05"),
+    // appliedDate: new Date("2024-08-15"),
+    // method: "Company Site",
+    status: "Pending"
+    // salaryRange: { 
+    //     min: 100000, 
+    //     max: 130000 
+    // },
+    // interviewDetails: {
+    //   date: new Date("2024-09-12"),
+    //   format: "In-Person",
+    //   location: { lat: 47.6062, lon: -122.3321 },
+    //   interviewerEmail: "hr@amazon.com",
+    // },
+    // followUpDate: new Date("2024-09-20"),
+    // notes: "Waiting for response after initial phone screen.",
   },
 };
 
-export function getApplication(_: string){
-  return applications["google"];
+export function getApplication(name: string): Application | undefined {
+    return applications[name];
 }

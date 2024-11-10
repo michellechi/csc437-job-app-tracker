@@ -61,23 +61,16 @@ class ApplicationPage {
     });
   }
   renderBody() {
-    const { title, company, location, postedDate, appliedDate, method, status, salaryRange, interviewDetails, followUpDate, notes } = this.data;
+    const { title, company, location, status } = this.data;
     return import_server.html`
       <body>
         <main class="page">
           <section class="application">
-            <application-element src="/api/applications/google">
-            //   <span slot="title">${title}</span>
-            //   <span slot="company">${company.name}</span>
-            //   <span slot="location">${location.lat}, ${location.lon}</span>
-            //   <span slot="status">${status}</span>
-            //   ${postedDate ? import_server.html`<span slot="posted-date">${postedDate.toString()}</span>` : ""}
-            //   ${appliedDate ? import_server.html`<span slot="applied-date">${appliedDate.toString()}</span>` : ""}
-            //   ${method ? import_server.html`<span slot="method">${method}</span>` : ""}
-            //   ${salaryRange ? import_server.html`<span slot="salary-range">${salaryRange.min}, ${salaryRange.max}</span>` : ""}
-            //   ${interviewDetails ? this.renderInterviewDetails(interviewDetails) : ""}
-            //   ${followUpDate ? import_server.html`<span slot="follow-up-date">${followUpDate.toString()}</span>` : ""}
-            //   ${notes ? import_server.html`<span slot="notes">${notes}</span>` : ""}
+            <application-element">
+              <span slot="title">${title}</span>
+              <span slot="company">${company}</span>
+              <span slot="location">${location.lat}, ${location.lon}</span>
+              <span slot="status">${status}</span>
             </application-element>
           </section>
         </main>
