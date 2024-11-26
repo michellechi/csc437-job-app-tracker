@@ -1,113 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Job Tracker</title>
-  <link rel="stylesheet" href="./styles/reset.css">
-  <link rel="stylesheet" href="./styles/tokens.css"> 
-  <link rel="stylesheet" href="./styles/page.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&display=swap" rel="stylesheet">
-  <script type="importmap">
+    <meta charset="UTF-8">
+    <title>HireGround</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&display=swap" rel="stylesheet">
+    <script type="importmap">
     {
-      "imports": {
-        "@calpoly/mustang": "https://unpkg.com/@calpoly/mustang"
-      }
+        "imports": {
+            "@calpoly/mustang": "https://unpkg.com/@calpoly/mustang"
+        }
     }
-  </script>
-  <script type="module">
-    import { define } from "@calpoly/mustang";
-    import { ApplicationElement } from "./scripts/application.js";
-  
-    define({
-      "application-element": ApplicationElement
-    });
-  </script>
-  <script type="module">
-    import { Events } from "@calpoly/mustang";
-    
-    window.relayEvent = Events.relay;
-  </script>
-  <script type="module">
-    function toggleDarkMode(page, checked) {
-      page.classList.toggle("dark-mode", checked);
-    }
-    
-    document.body.addEventListener("dark-mode", (event) =>
-      toggleDarkMode(event.currentTarget, event.detail.checked)
-    );
     </script>
+    <script type="module">
+        import { define, Auth } from "@calpoly/mustang";
+        import { HeaderElement } from "./scripts/header.js";
+
+        define({
+            "all-header": HeaderElement,
+            "mu-auth": Auth.Provider
+        })
+        HeaderElement.initializeOnce()
+    </script>
+
+    <link rel="stylesheet" href="/styles/reset.css">
+    <link rel="stylesheet" href="/styles/tokens.css">
+    <link rel="stylesheet" href="/styles/page.css"/>
+    <link rel="stylesheet" href="/styles/header_layout.css">
+    <link rel="stylesheet" href="/styles/home_layout.css">
 </head>
 <body>
-  <header>
-    <drop-down class="drop-down-label">
-      <label onchange="relayEvent(event, 'dark-mode', {checked: event.target.checked})">
-        <input type="checkbox" autocomplete="off" />
-        Dark Mode
-      </label>
-    </drop-down>
-    <div>AppTrak</div>
-    <div class="profile-icon">
-        <svg class="icon-profile" viewBox="0 -7 70 70"><use xlink:href="icons/icons.svg#icon-profile"></use></svg>
-    </div>
-  </header>
-  <main>
-    <nav>
-      <ul>
-        <li><a href="#applications">Job Applications</a></li>
-        <li><a href="#schedule">Interview Schedule</a></li>
-      </ul>
-    </nav>
-    <div class="content">
-      
-      <section id="applications" class="container">
-        <h2>
-          <svg class="icon-header2"><use xlink:href="icons/icons.svg#icon-job"></use></svg>
-          Job Applications
-        </h2>
-        <p>Here are your active job applications:</p>
+<mu-auth provides="blazing:auth">
+    <all-header></all-header>
+    <main>
+        <section class="search-section">
+            <h2>Search for Items</h2>
+            <div class="search-bar">
+                <input type="text" id="item-name" placeholder="Enter item name...">
+                <button>Add to Cart</button>
+            </div>
+        </section>
 
-        <application-element>
-          <span slot="title">UX/UI Engineer</span>
-          <span slot="company">Netflix</span>
-          <span slot="location">San Francisco, CA</span>
-          <span slot="status">Interview Scheduled</span>
-        </application-element>
+        <section class="cart-section">
+            <h2>Your Cart</h2>
+            <div class="cart-summary">
+                <p>Total Items: <span id="total-items">0</span></p>
+                <p>Estimated Total: $<span id="estimated-total">0.00</span></p>
+            </div>
+        </section>
+    </main>
+</mu-auth>
 
-        <application-element>
-          <span slot="title">Backend Engineer</span>
-          <span slot="company">Google</span>
-          <span slot="location">Garden Grove, CA</span>
-          <time slot="posted-date" datetime="2024-10-25">Oct 25, 2024</time>
-          <time slot="applied-date" datetime="2024-11-29">Nov 29, 2024</time>
-          <span slot="status">Applied</span>
-          <span slot="notes">Waiting for response.</span>
-        </application-element>
-
-        <application-element>
-          <span slot="title">Grocery Associate</span>
-          <span slot="company">Vons</span>
-          <span slot="location">Fresno, CA</span>
-          <time slot="posted-date" datetime="2024-10-25">Oct 25, 2024</time>
-          <time slot="applied-date" datetime="2024-11-29">Nov 29, 2024</time>
-          <span slot="status">Rejected</span>
-          <span slot="notes">Ghosted.</span>
-        </application-element>
-
-        <div>
-          <button>Add New Job</button>
-        </div>
-      </section>
-      <section id="schedule" class="container">
-        <h2>
-          <svg class="icon-header2"><use xlink:href="icons/icons.svg#icon-calendar"></use></svg>
-          Interview Schedule
-        </h2>
-        <p>No upcoming interviews</p>
-      </section>
-    </div>
-  </main>
 </body>
 </html>
