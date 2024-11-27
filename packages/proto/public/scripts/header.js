@@ -5,10 +5,11 @@ export class HeaderElement extends HTMLElement {
     static template = html`
         <template>
             <header class="header_layout">
-                <h1>HireGround</h1>
+                <h1>Grocery Guru</h1>
                 <nav class="nav_links">
                     <a href="../index.html">Home</a>
-                    <a href="../nav_links/schedule.html">Schedule</a>
+                    <a href="../nav_links/applications.html">Applications</a>
+                    <a href="../nav_links/recipes.html">Recipes</a>
                     <a href="../nav_links/about.html">About</a>
                 </nav>
                 <div class="dark-mode-container">

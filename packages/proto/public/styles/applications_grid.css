@@ -1,0 +1,32 @@
+.applications_grid{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 40px 20px;
+}
+
+.applications_grid_card{
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    border-style: solid;
+}
+
+.application_image{
+    width: 100%;
+    height: 40%;
+    object-fit: cover;
+}
+
+.application_content{
+    padding: 20px;
+    text-align: center;
+}
+
+.application_button{
+    background-color: white;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 14px;
+    display: inline-block;
+}

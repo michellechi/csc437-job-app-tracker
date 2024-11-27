@@ -1,26 +1,16 @@
-import { Point } from "./geo";
-import { Company } from "./company";
-import { Interview } from "./interview";
-
-export interface Application {
-    id: number;
+export interface Application{
+    id: string;
     title: string;
     company: string;
-    location: Point;
-    // postedDate?: Date;
-    // appliedDate: Date | undefined;
-    // method?: MethodType;
-    status: StatusType;
-    // salaryRange?: SalaryRange;
-    // interviewDetails: Interview;
-    // followUpDate?: Date;
-    // notes?: string;
+    location: string;
+    status: string;
 }
 
-export type StatusType = "Pending" | "Submitted" | "Interview Scheduled" | "Accepted" | "Rejected";
-export type MethodType = "Company Site" | "Email" | "Referral" | "LinkedIn" | "Recruiter" | "Handshake";
-export interface SalaryRange {
-    min: number;
-    max: number;
+export interface Item{
+    id: string;
+    name: string;
+    price: number;
+    category: string;
+    storeId: string;
 }
 
