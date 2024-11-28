@@ -22,7 +22,7 @@ function generateAccessToken(username: string): Promise<string> {
             { username: username },
             TOKEN_SECRET,
             { expiresIn: "1d" },
-            (error: any, token: string | undefined) => { // Explicitly define token as string | undefined
+            (error: any, token: string | undefined) => { 
                 if (error || !token) {
                     reject(error || new Error("Token generation failed"));
                 } else {
@@ -33,9 +33,8 @@ function generateAccessToken(username: string): Promise<string> {
     });
 }
 
-
 router.post("/register", (req: Request, res: Response) => {
-    const { username, password } = req.body; // from form
+    const { username, password } = req.body;
 
     if (!username || !password) {
         res.status(400).send("Bad request: Invalid input data.");

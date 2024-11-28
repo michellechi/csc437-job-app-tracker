@@ -5,7 +5,7 @@ export class HeaderElement extends HTMLElement {
     static template = html`
         <template>
             <header class="header_layout">
-                <h1>Grocery Guru</h1>
+                <h1>HireGround</h1>
                 <nav class="nav_links">
                     <a href="../index.html">Home</a>
                     <a href="../nav_links/applications.html">Applications</a>

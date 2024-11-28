@@ -12,5 +12,5 @@ var __copyProps = (to, from, except, desc) => {
   return to;
 };
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
-var application_exports = {};
-module.exports = __toCommonJS(application_exports);
+var credential_exports = {};
+module.exports = __toCommonJS(credential_exports);

@@ -87,7 +87,4 @@ function verify(
     });
 }
 
-/**
- * Create an account and verify logins
- * */
 export default{create, verify};

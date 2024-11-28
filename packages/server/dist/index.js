@@ -23,7 +23,7 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 ));
 var import_express = __toESM(require("express"));
 var import_application = require("./pages/application");
-var import_application_svc = __toESM(require("./services/application-svc"));
+var import_application_svc_mongo = __toESM(require("./services/application-svc-mongo"));
 var import_mongo = require("./services/mongo");
 var import_applications = __toESM(require("./routes/applications"));
 (0, import_mongo.connect)("JobApp");
@@ -40,7 +40,7 @@ app.listen(port, () => {
 });
 app.get("/applications/:id", (req, res) => {
   const { id } = req.params;
-  import_application_svc.default.get(id).then((data) => {
+  import_application_svc_mongo.default.get(id).then((data) => {
     const page = new import_application.ApplicationPage(data);
     res.set("Content-Type", "text/html").send(page.render());
   });
@@ -48,7 +48,7 @@ app.get("/applications/:id", (req, res) => {
 app.post("/api/applications", async (req, res) => {
   const applicationData = req.body;
   try {
-    const newApplication = await import_application_svc.default.create(applicationData);
+    const newApplication = await import_application_svc_mongo.default.create(applicationData);
     res.status(201).json(newApplication);
   } catch (error) {
     res.status(400).send(error);

@@ -1,22 +1,21 @@
 import { Schema, model } from "mongoose";
-import { Application } from "../models/application";
+import { Application, StatusType } from "../models";
 
-const ItemSchema = new Schema({
-    id: { type: String, required: true },
-    name: { type: String, required: true },
-    price: { type: Number, required: true },
-    category: { type: String, required: true },
-    storeId: { type: String, required: true }
-});
+// const ItemSchema = new Schema({
+//     id: { type: String, required: true },
+//     name: { type: String, required: true },
+//     price: { type: Number, required: true },
+//     category: { type: String, required: true },
+//     storeId: { type: String, required: true }
+// });
 
 const ApplicationSchema = new Schema(
     {
         id: { type: String, required: true },
-        name: { type: String, required: true },
-        state: { type: String, required: true },
-        city: { type: String, required: true },
-        streetAddress: { type: String, required: true },
-        items: { type: [ItemSchema], required: true }
+        title: { type: String, required: true },
+        company: { type: String, required: true },
+        location: { type: String, required: true },
+        status: { type: String, required: true },
     },
     { collection: "applications" }
 );
@@ -45,7 +44,7 @@ function create(json: Application): Promise<Application> {
 
 function update(id: string, application: Partial<Application>): Promise<Application> {
     return ApplicationModel.findOneAndUpdate({ id }, application, {
-        new: true // Return the updated document
+        new: true 
     }).then((updated: any) => {
         if (!updated) throw new Error(`${id} not updated`);
         return updated as Application;
@@ -58,5 +57,4 @@ function remove(id: string): Promise<void> {
     });
 }
 
-// Export the CRUD functions
 export default { index, get, create, update, remove };

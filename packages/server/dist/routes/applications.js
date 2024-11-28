@@ -32,28 +32,32 @@ __export(applications_exports, {
 });
 module.exports = __toCommonJS(applications_exports);
 var import_express = __toESM(require("express"));
-var import_application_svc = __toESM(require("../services/application-svc"));
+var import_application_svc_mongo = __toESM(require("../services/application-svc-mongo"));
 const router = import_express.default.Router();
 router.get("/", (_, res) => {
-  import_application_svc.default.index().then((list) => res.json(list)).catch((err) => res.status(500).send(err));
+  import_application_svc_mongo.default.index().then((list) => res.json(list)).catch((err) => res.status(500).send(err));
 });
-router.get("/:appId", (req, res) => {
-  const { appId } = req.params;
-  import_application_svc.default.get(appId).then((application) => res.json(application)).catch((err) => res.status(404).send(err));
+router.get("/:id", (req, res) => {
+  const { id } = req.params;
+  import_application_svc_mongo.default.get(id).then((application) => {
+    if (application) {
+      return res.json(application);
+    } else {
+      return res.status(404).send({ error: "Application not found" });
+    }
+  }).catch((err) => res.status(500).send(err));
 });
 router.post("/", (req, res) => {
-  const newApplication = req.body;
-  import_application_svc.default.create(newApplication).then(
-    (application) => res.status(201).json(application)
-  ).catch((err) => res.status(500).send(err));
+  const newApplicationData = req.body;
+  import_application_svc_mongo.default.create(newApplicationData).then((application) => res.status(201).json(application)).catch((err) => res.status(500).send(err));
 });
-router.put("/:appId", (req, res) => {
-  const { appId } = req.params;
-  const newApp = req.body;
-  import_application_svc.default.update(appId, newApp).then((application) => res.json(application)).catch((err) => res.status(404).end());
+router.put("/:id", (req, res) => {
+  const { id } = req.params;
+  const updatedData = req.body;
+  import_application_svc_mongo.default.update(id, updatedData).then((updatedApplication) => res.json(updatedApplication)).catch(() => res.status(404).send({ error: "Application not found" }));
 });
-router.delete("/:appId", (req, res) => {
-  const { appId } = req.params;
-  import_application_svc.default.remove(appId).then(() => res.status(204).end()).catch((err) => res.status(404).send(err));
+router.delete("/:id", (req, res) => {
+  const { id } = req.params;
+  import_application_svc_mongo.default.remove(id).then(() => res.status(204).end()).catch(() => res.status(404).send({ error: "Application not found" }));
 });
 var applications_default = router;
