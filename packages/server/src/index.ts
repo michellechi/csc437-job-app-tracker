@@ -3,7 +3,7 @@ import Applications from "./services/application-svc-mongo";
 import { connect } from "./services/mongo";
 import applications from "./routes/applications";
 import auth, { authenticateUser } from "./routes/auth";
-import { LoginPage } from "pages/auth";
+import { LoginPage } from "./pages/auth";
 
 connect("JobApp");
 
@@ -13,6 +13,8 @@ const staticDir = process.env.STATIC || "public";
 
 app.use(express.static(staticDir));
 app.use("/api/applications", authenticateUser, applications);
+app.use("/auth", auth);
+app.use(express.json());
 
 app.get("/hello", (req: Request, res: Response) => {
     res.send("Hello, World");

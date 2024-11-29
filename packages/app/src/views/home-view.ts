@@ -1,83 +1,36 @@
 // @ts-ignore
-import { Auth, Observer } from "@calpoly/mustang";
+import { define, View } from "@calpoly/mustang";
 // @ts-ignore
-import { css, html, LitElement } from "lit";
+import { css, html } from "lit";
 // @ts-ignore
-import { state } from "lit/decorators.js";
+import { state, property } from "lit/decorators.js";
+import { Model } from "../model";
+import { Msg } from "../messages";
 
 // @ts-ignore
 import { Application, Item } from "./models/application"; // application.ts - model
 
-export class HomeViewElement extends LitElement {
+export class HomeViewElement extends View<Model, Msg> {
     @state()
     searchQuery: string = "";
 
-    @state()
-    totalCost: number = 0;
-
-    @state()
-    cartItems: Array<{ name: string; price: number; applicationName: string }> = [];
-
-    @state()
-    applications: Array<Application> = [];
+    constructor() {
+      super("guru:model"); // Connect to mu-store
+    }
 
     connectedCallback() {
         super.connectedCallback();
-        this.hydrate();
-    }
-
-    hydrate() {
-        // Fetch application data from your backend API
-        fetch('/api/applications')
-            .then((response) => {
-                if (response.ok) {
-                    return response.json();
-                }
-                throw new Error(`Error fetching data: ${response.statusText}`);
-            })
-            .then((data) => {
-                this.applications = data || [];
-            })
-            .catch((error) => {
-                console.error("Failed to fetch applications:", error);
-            });
+        this.dispatchMessage(["vendors/load"]);
     }
 
     handleSearch() {
         const query = this.searchQuery.toLowerCase();
-        let cheapestItem: Item | null = null;
-        let cheapestApplication: string | null = null;
-
-        // Iterate through applications and items to find the cheapest matching item
-        this.applications.forEach((application) => {
-            // @ts-ignore
-            application.items.forEach((item) => {
-                if (item.name.toLowerCase().includes(query)) {
-                    if (!cheapestItem || item.price < cheapestItem.price) {
-                        cheapestItem = item;
-                        cheapestApplication = application.name;
-                    }
-                }
-            });
-        });
-
-        if (cheapestItem && cheapestApplication) {
-            // Add the cheapest item to the cart
-            this.cartItems.push({
-                name: cheapestItem.name,
-                price: cheapestItem.price,
-                applicationName: cheapestApplication
-            });
-            this.totalCost += cheapestItem.price;
-        } else {
-            console.log("No items found.");
-        }
-
-        // Reset search query after adding to the cart
-        this.searchQuery = "";
+        this.dispatchMessage(["search/item", { query }]);
+        this.searchQuery = ""; // Reset search query
     }
 
     render() {
+        const { cartItems = [], totalCost = 0 } = this.model;
         return html`
       <main>
         <section class="search-section">
@@ -97,15 +50,19 @@ export class HomeViewElement extends LitElement {
         <section class="cart-section">
           <h2>Your Cart</h2>
           <div class="cart-summary">
-            <p>Total Items: ${this.cartItems.length}</p>
-            <p>Estimated Total: $${this.totalCost.toFixed(2)}</p>
+            <p>Total Items: ${cartItems.length}</p>
+            <p>Estimated Total: $${totalCost.toFixed(2)}</p>
           </div>
           <ul class="cart-items">
-            ${this.cartItems.map(
-            (item) => html`
-                <li>${item.name} (Application: ${item.applicationName}): $${item.price.toFixed(2)}</li>
-              `
-        )}
+            ${cartItems.map(
+              (item) =>
+                  html`
+                    <li>
+                      ${item.name} (Vendor: ${item.vendorName}): $
+                      ${item.price.toFixed(2)}
+                    </li>
+                  `
+            )}
           </ul>
         </section>
       </main>
@@ -113,7 +70,6 @@ export class HomeViewElement extends LitElement {
     }
 
     static styles = css`
-      /* Add your CSS styles here */
       main {
         padding: 20px;
       }
@@ -152,3 +108,5 @@ export class HomeViewElement extends LitElement {
       }
     `;
 }
+
+define({ "home-view": HomeViewElement });

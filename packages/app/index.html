@@ -32,11 +32,13 @@
     <script type="module" src="/src/main"></script>
 </head>
 <body>
-<mu-history provides="guru:history">
-    <mu-auth provides="guru:auth" redirect="/login.html">
-        <all-header></all-header>
-        <grocery-guru-app></grocery-guru-app>
-    </mu-auth>
-</mu-history>
+    <mu-history provides="guru:history">
+        <mu-auth provides="guru:auth" redirect="/login.html">
+            <mu-store provides="guru:model">
+                <all-header></all-header>
+                <grocery-guru-app></grocery-guru-app>
+            </mu-store>
+        </mu-auth>
+    </mu-history>
 </body>
 </html>

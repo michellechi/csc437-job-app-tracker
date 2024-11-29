@@ -17,7 +17,7 @@ export class RecipeViewElement extends LitElement {
 
     connectedCallback() {
         super.connectedCallback();
-        console.log("ConnectedCallback - Item ID:", this.itemId); // Debug log
+        console.log("ConnectedCallback -> Item ID:", this.itemId);
         if (this.itemId) {
             this.hydrate();
         } else {
@@ -26,7 +26,7 @@ export class RecipeViewElement extends LitElement {
     }
 
     hydrate() {
-        console.log("Fetching recipe with ID:", this.itemId); // Debug log
+        console.log("Fetching recipe with ID:", this.itemId);
         fetch(`/api/recipes/${this.itemId}`)
             .then((response) => {
                 if (response.ok) {
@@ -35,7 +35,7 @@ export class RecipeViewElement extends LitElement {
                 throw new Error(`Error fetching recipe: ${response.statusText}`);
             })
             .then((data: Recipe) => {
-                // Make sure the data structure matches what we expect
+                // Make sure the data structure matches
                 this.recipe = {
                     ...data,
                     ingredients: data.ingredients || [],

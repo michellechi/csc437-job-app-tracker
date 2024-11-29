@@ -28,6 +28,7 @@ const credentialModel = model<Credential>(
 // -d '{"username": "test", "password": "password"}'
 function create(username: string, password: string){
     return new Promise<Credential>((resolve, reject) => {
+        console.log("function create");
         if(!username || !password){
             reject("Must provide username and password");
         }
@@ -87,4 +88,4 @@ function verify(
     });
 }
 
-export default{create, verify};
+export default { create, verify };

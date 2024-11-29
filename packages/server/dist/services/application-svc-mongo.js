@@ -22,21 +22,13 @@ __export(application_svc_mongo_exports, {
 });
 module.exports = __toCommonJS(application_svc_mongo_exports);
 var import_mongoose = require("mongoose");
-const ItemSchema = new import_mongoose.Schema({
-  id: { type: String, required: true },
-  name: { type: String, required: true },
-  price: { type: Number, required: true },
-  category: { type: String, required: true },
-  storeId: { type: String, required: true }
-});
 const ApplicationSchema = new import_mongoose.Schema(
   {
     id: { type: String, required: true },
-    name: { type: String, required: true },
-    state: { type: String, required: true },
-    city: { type: String, required: true },
-    streetAddress: { type: String, required: true },
-    items: { type: [ItemSchema], required: true }
+    title: { type: String, required: true },
+    company: { type: String, required: true },
+    location: { type: String, required: true },
+    status: { type: String, required: true }
   },
   { collection: "applications" }
 );
@@ -59,7 +51,6 @@ function create(json) {
 function update(id, application) {
   return ApplicationModel.findOneAndUpdate({ id }, application, {
     new: true
-    // Return the updated document
   }).then((updated) => {
     if (!updated) throw new Error(`${id} not updated`);
     return updated;

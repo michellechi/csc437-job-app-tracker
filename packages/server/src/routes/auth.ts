@@ -5,13 +5,10 @@ import express, {
     Request,
     Response
 } from "express";
-
 import jwt from "jsonwebtoken";
-
 import credentials from "../services/credential-svc";
 
 const router = express.Router();
-
 dotenv.config();
 const TOKEN_SECRET: string =
     process.env.TOKEN_SECRET || "NOT_A_SECRET";
@@ -34,6 +31,7 @@ function generateAccessToken(username: string): Promise<string> {
 }
 
 router.post("/register", (req: Request, res: Response) => {
+    console.log("Register route hit");
     const { username, password } = req.body;
 
     if (!username || !password) {
@@ -44,7 +42,8 @@ router.post("/register", (req: Request, res: Response) => {
             .then((creds) => generateAccessToken(creds.username))
             .then((token) => {
                 res.status(201).send({ token: token });
-            });
+            })
+            .catch((err) => res.status(500).send("Error during registration"));
     }
 });
 

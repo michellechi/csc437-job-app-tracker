@@ -22,28 +22,26 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   mod
 ));
 var import_express = __toESM(require("express"));
-var import_application = require("./pages/application");
 var import_application_svc_mongo = __toESM(require("./services/application-svc-mongo"));
 var import_mongo = require("./services/mongo");
 var import_applications = __toESM(require("./routes/applications"));
+var import_auth = require("./routes/auth");
+var import_auth2 = require("./pages/auth");
 (0, import_mongo.connect)("JobApp");
 const app = (0, import_express.default)();
 const port = process.env.PORT || 3e3;
 const staticDir = process.env.STATIC || "public";
 app.use(import_express.default.static(staticDir));
-app.use("/api/applications", import_applications.default);
+app.use("/api/applications", import_auth.authenticateUser, import_applications.default);
 app.get("/hello", (req, res) => {
   res.send("Hello, World");
 });
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
-app.get("/applications/:id", (req, res) => {
-  const { id } = req.params;
-  import_application_svc_mongo.default.get(id).then((data) => {
-    const page = new import_application.ApplicationPage(data);
-    res.set("Content-Type", "text/html").send(page.render());
-  });
+app.get("/login", (req, res) => {
+  const page = new import_auth2.LoginPage();
+  res.set("Content-Type", "text/html").send(page.render());
 });
 app.post("/api/applications", async (req, res) => {
   const applicationData = req.body;
