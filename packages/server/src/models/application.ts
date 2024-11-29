@@ -2,11 +2,12 @@ import { Point } from "./geo";
 
 export interface Application{
     id: string;
-    title: string;
-    company: string;
-    location: string;
-    status: StatusType;
-} 
+    name: string;
+    state: string;
+    city: string;
+    streetAddress: string;
+    items: Item[];
+}
 
 export interface Item{
     id: string;

@@ -2,18 +2,21 @@ export interface Application {
     name: string;
     items: Array<{ name: string; price: number }>;
 }
+
 export interface CartItem {
     name: string;
     price: number;
-    vendorName: string;
+    applicationName: string;
 }
+
 export interface Model {
-    vendors: Vendor[];
+    applications: Application[];
     cartItems: CartItem[];
     totalCost: number;
 }
+
 export const init: Model = {
-    vendors: [],
+    applications: [],
     cartItems: [],
     totalCost: 0,
 };

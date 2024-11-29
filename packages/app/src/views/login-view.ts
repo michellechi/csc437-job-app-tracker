@@ -1,5 +1,6 @@
 // @ts-ignore
 import { css, html, LitElement } from "lit";
+// @ts-ignore
 import { state } from "lit/decorators.js";
 
 export class LoginViewElement extends LitElement {
@@ -10,7 +11,7 @@ export class LoginViewElement extends LitElement {
     password: string = "";
 
     @state()
-    confirmPassword: string = ""; 
+    confirmPassword: string = ""; // For registration
 
     @state()
     errorMessage: string = "";
@@ -19,7 +20,7 @@ export class LoginViewElement extends LitElement {
     successMessage: string = "";
 
     @state()
-    isRegister: boolean = false; 
+    isRegister: boolean = false; // Toggles between Login and Register views
 
     handleLogin() {
         console.log("Attempting login with:", { username: this.username });

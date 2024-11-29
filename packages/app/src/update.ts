@@ -21,12 +21,14 @@ export default function update(
                     console.error("Failed to fetch applications:", error);
                 });
             break;
+
             // searches for the cheapest item closest to keyword
         case "search/item":
             const { query } = message[1];
             apply((model) => {
                 const lowerCaseQuery = query.toLowerCase();
                 let cheapestItem: { name: string; price: number; applicationName: string } | null = null;
+
                 model.applications.forEach((application) => {
                     application.items.forEach((item) => {
                         if (item.name.toLowerCase().includes(lowerCaseQuery)) {
@@ -40,12 +42,13 @@ export default function update(
                         }
                     });
                 });
+
                 if (cheapestItem) {
-                    console.log(`Adding to cart: ${cheapestItem.name} from ${cheapestItem.applicationName}`);
+                    const { price } = cheapestItem;
                     return {
                         ...model,
                         cartItems: [...model.cartItems, cheapestItem],
-                        totalCost: model.totalCost + cheapestItem.price,
+                        totalCost: model.totalCost + price,
                     };
                 } else {
                     console.warn(`No items found for query: ${query}`);
@@ -53,6 +56,7 @@ export default function update(
                 }
             });
             break;
+
         case "cart/add":
             apply((model) => ({
                 ...model,
@@ -60,6 +64,7 @@ export default function update(
                 totalCost: model.totalCost + message[1].item.price,
             }));
             break;
+
         default:
             const unhandled: never = message[0];
             throw new Error(`Unhandled Auth message "${unhandled}"`);

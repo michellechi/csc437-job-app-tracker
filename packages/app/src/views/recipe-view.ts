@@ -8,6 +8,7 @@ import { state, property } from "lit/decorators.js";
 // @ts-ignore
 import { Ingredient, Recipe } from "./models/recipe"; // Import models
 
+
 export class RecipeViewElement extends LitElement {
     @property({ type: String })
     itemId: string = "";
