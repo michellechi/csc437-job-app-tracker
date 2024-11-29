@@ -48,6 +48,7 @@ router.get("/:id", (req, res) => {
   }).catch((err) => res.status(500).send(err));
 });
 router.post("/", (req, res) => {
+  res.send("in router.post");
   const newRecipeData = req.body;
   import_recipe_svc_mongo.default.create(newRecipeData).then(
     (recipe) => res.status(201).json(recipe)

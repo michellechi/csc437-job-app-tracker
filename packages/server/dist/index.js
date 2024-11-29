@@ -25,16 +25,26 @@ var import_express = __toESM(require("express"));
 var import_application_svc_mongo = __toESM(require("./services/application-svc-mongo"));
 var import_mongo = require("./services/mongo");
 var import_applications = __toESM(require("./routes/applications"));
-var import_auth = require("./routes/auth");
+var import_auth = __toESM(require("./routes/auth"));
 var import_auth2 = require("./pages/auth");
+var import_promises = __toESM(require("node:fs/promises"));
+var import_path = __toESM(require("path"));
 (0, import_mongo.connect)("JobApp");
 const app = (0, import_express.default)();
 const port = process.env.PORT || 3e3;
 const staticDir = process.env.STATIC || "public";
 app.use(import_express.default.static(staticDir));
 app.use("/api/applications", import_auth.authenticateUser, import_applications.default);
+app.use("/auth", import_auth.default);
+app.use(import_express.default.json());
 app.get("/hello", (req, res) => {
   res.send("Hello, World");
+});
+app.use("/app", (req, res) => {
+  const indexHtml = import_path.default.resolve(staticDir, "index.html");
+  import_promises.default.readFile(indexHtml, { encoding: "utf8" }).then(
+    (html) => res.send(html)
+  );
 });
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
