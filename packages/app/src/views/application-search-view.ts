@@ -104,7 +104,7 @@ export class ApplicationSearchViewElement extends View<Model, Msg> {
       display: flex;
       width: 100%;
       max-width: 600px;
-      border-radius: 30px;
+      border-radius: 40px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
       overflow: hidden;
     }
@@ -143,7 +143,6 @@ export class ApplicationSearchViewElement extends View<Model, Msg> {
 
     button:hover {
       background-color: #0056b3;
-      transform: scale(1.05);
     }
 
     .results-section {
@@ -177,7 +176,6 @@ export class ApplicationSearchViewElement extends View<Model, Msg> {
 
     .application-list li:hover {
       background-color: #f5f5f5;
-      transform: scale(1.02);
       box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
     }
 
