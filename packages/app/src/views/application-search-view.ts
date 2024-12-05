@@ -51,7 +51,7 @@ export class ApplicationSearchViewElement extends View<Model, Msg> {
         </section>
 
         <section class="results-section">
-          <h2>Results</h2>
+          <h2>Your Applications</h2>
           ${applications.length === 0
             ? html`<p>No applications found. Try a different keyword.</p>`
             : html`
@@ -101,129 +101,118 @@ export class ApplicationSearchViewElement extends View<Model, Msg> {
     }
 
     .search-bar {
-      display: flex;
-      width: 100%;
-      max-width: 600px;
-      border-radius: 40px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-      overflow: hidden;
-    }
+  display: flex;
+  width: 100%;
+  max-width: 600px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
 
-    input {
-      flex: 1;
-      padding: 15px;
-      font-size: 1rem;
-      border: 1px solid #ccc;
-      border-right: none;
-      border-top-left-radius: 30px;
-      border-bottom-left-radius: 30px;
-      outline: none;
-      transition: border-color 0.3s ease;
-      color: #333;
-      background-color: white;
-    }
+input {
+  flex: 1;
+  padding: 10px; /* Adjust padding for a square look */
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-right: none;
+  outline: none;
+  transition: border-color 0.3s ease;
+  color: #333;
+  background-color: white;
+}
 
-    input:focus {
-      border-color: #007bff;
-    }
+input:focus {
+  border-color: #007bff;
+}
 
-    button {
-      padding: 15px 20px;
-      font-size: 1rem;
-      cursor: pointer;
-      border: 1px solid #ccc;
-      border-left: none;
-      border-top-right-radius: 30px;
-      border-bottom-right-radius: 30px;
-      background-color: #007bff;
-      color: white;
-      transition: background-color 0.3s ease, transform 0.2s ease;
-      margin-left: 10px;
-    }
+button {
+  padding: 10px; /* Adjust padding for a square look */
+  font-size: 1rem;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  border-left: none;
+  background-color: #007bff;
+  color: white;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
 
-    button:hover {
-      background-color: #0056b3;
-    }
+button:hover {
+  background-color: #0056b3;
+}
 
-    .results-section {
-      margin-top: 20px;
-      width: 100%;
-      max-width: 700px;
-    }
+/* Make application list items more square */
+.application-list {
+  list-style-type: none; /* Remove bullet points */
+  padding: 0; /* Remove extra padding around the list */
+  margin: 10px 0; /* Maintain spacing */
+}
 
-    .results-section h2 {
-      font-size: 1.6rem;
-      color: #444;
-      font-weight: 600;
-      margin-bottom: 15px;
-    }
+.application-list li {
+  padding: 15px 20px; /* Similar padding to the search bar */
+  margin-bottom: 15px; /* Space between items */
+  border: 1px solid #ccc; /* Similar border style */
+  background-color: white; /* Consistent background */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+  transition: background-color 0.3s ease, box-shadow 0.2s ease;
+  width: 100%; /* Full width */
+  max-width: 600px; /* Match the search bar's width */
+  display: flex; /* Flex layout for content alignment */
+  align-items: center; /* Center align content */
+}
 
-    .application-list {
-      list-style-type: none;
-      padding: 0;
-      margin: 10px 0;
-    }
+.application-list li:hover {
+  background-color: #f5f5f5; /* Subtle hover effect */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Slightly stronger shadow */
+}
 
-    .application-list li {
-      padding: 15px;
-      margin-bottom: 10px;
-      border: 1px solid #e0e0e0;
-      border-radius: 12px;
-      background-color: white;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-      transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
-    }
+.application-list a {
+  text-decoration: none; /* Remove underline */
+  color: #007bff; /* Link color */
+  font-weight: 600; /* Bold text */
+  flex: 1; /* Make the link take up available space */
+  display: inline-block; /* Inline-block for text alignment */
+  padding: 5px 10px; /* Padding inside the link */
+  transition: color 0.3s ease;
+}
 
-    .application-list li:hover {
-      background-color: #f5f5f5;
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-    }
+.application-list a:hover {
+  color: #0056b3; /* Darker blue on hover */
+}
 
-    .application-list a {
-      text-decoration: none;
-      color: #007bff;
-      font-weight: 600;
-      transition: color 0.3s ease;
-    }
+.application-list a:visited {
+  color: #6c757d; /* Gray color for visited links */
+}
 
-    .application-list a:hover {
-      color: #0056b3;
-    }
+/* Remove roundness for mobile view as well */
+.search-bar input,
+.search-bar button {
+  font-family: 'Poppins', Arial, sans-serif;
+  border-radius: 0; /* Remove roundness */
+}
 
-    .application-list a:visited {
-      color: #6c757d;
-    }
+@media (max-width: 600px) {
+  .search-section {
+    margin-bottom: 20px;
+  }
 
-    .search-bar input,
-    .search-bar button {
-      font-family: 'Poppins', Arial, sans-serif;
-      border-radius: 25px;
-    }
+  .search-bar {
+    flex-direction: column;
+    width: 100%;
+    max-width: 100%;
+  }
 
-    @media (max-width: 600px) {
-      .search-section {
-        margin-bottom: 20px;
-      }
+  input {
+    width: 100%;
+    margin-bottom: 10px;
+  }
 
-      .search-bar {
-        flex-direction: column;
-        width: 100%;
-        max-width: 100%;
-      }
+  button {
+    width: 100%;
+  }
 
-      input {
-        width: 100%;
-        margin-bottom: 10px;
-      }
-
-      button {
-        width: 100%;
-      }
-
-      .application-list {
-        padding: 0 10px;
-      }
-    }
+  .application-list {
+    padding: 0 10px;
+  }
+  }
   `;
 }
 

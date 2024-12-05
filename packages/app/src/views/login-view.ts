@@ -1,28 +1,14 @@
-// @ts-ignore
 import { css, html, LitElement } from "lit";
-// @ts-ignore
 import { state } from "lit/decorators.js";
 
 export class LoginViewElement extends LitElement {
-  @state()
-  username: string = "";
+  @state() username: string = "";
+  @state() password: string = "";
+  @state() confirmPassword: string = ""; // For registration
+  @state() errorMessage: string = "";
+  @state() successMessage: string = "";
+  @state() isRegister: boolean = false; // Toggles between Login and Register views
 
-  @state()
-  password: string = "";
-
-  @state()
-  confirmPassword: string = ""; // For registration
-
-  @state()
-  errorMessage: string = "";
-
-  @state()
-  successMessage: string = "";
-
-  @state()
-  isRegister: boolean = false; // Toggles between Login and Register views
-
-  // Handles the login logic
   handleLogin() {
     console.log("Attempting login with:", { username: this.username });
 
@@ -48,7 +34,6 @@ export class LoginViewElement extends LitElement {
       });
   }
 
-  // Handles the registration logic
   handleRegister() {
     console.log("Attempting registration with:", {
       username: this.username,
@@ -88,7 +73,6 @@ export class LoginViewElement extends LitElement {
       });
   }
 
-  // Toggles between login and registration views
   toggleView() {
     this.isRegister = !this.isRegister;
     this.errorMessage = "";
@@ -102,9 +86,14 @@ export class LoginViewElement extends LitElement {
     return html`
       <main class="page">
         <section class="form-container">
-          <h3>${this.isRegister ? "Register" : "Log in"}</h3>
-          
-          <!-- Display error or success messages -->
+          <h2>${this.isRegister ? "Create an Account" : "Welcome Back!"}</h2>
+          <p class="subtitle">
+            ${this.isRegister
+              ? "Sign up to start your journey."
+              : "Login to access your account."}
+          </p>
+
+          <!-- Error or success messages -->
           ${this.errorMessage
             ? html`<p class="error-message">${this.errorMessage}</p>`
             : ""}
@@ -114,51 +103,37 @@ export class LoginViewElement extends LitElement {
 
           <!-- Form for login or registration -->
           <form @submit="${(e: Event) => e.preventDefault()}">
-            <div class="form-group">
-              <label for="username">Username</label>
-              <input
-                type="text"
-                id="username"
-                placeholder="Enter your username"
-                .value="${this.username}"
-                @input="${(e: Event) =>
-                  (this.username = (e.target as HTMLInputElement).value)}"
-                required
-                aria-describedby="username-help"
-              />
-            </div>
-            
-            <div class="form-group">
-              <label for="password">Password</label>
-              <input
-                type="password"
-                id="password"
-                placeholder="Enter your password"
-                .value="${this.password}"
-                @input="${(e: Event) =>
-                  (this.password = (e.target as HTMLInputElement).value)}"
-                required
-                aria-describedby="password-help"
-              />
-            </div>
-
+            <input
+              type="text"
+              id="username"
+              placeholder="Username"
+              .value="${this.username}"
+              @input="${(e: Event) =>
+                (this.username = (e.target as HTMLInputElement).value)}"
+              required
+            />
+            <input
+              type="password"
+              id="password"
+              placeholder="Password"
+              .value="${this.password}"
+              @input="${(e: Event) =>
+                (this.password = (e.target as HTMLInputElement).value)}"
+              required
+            />
             ${this.isRegister
               ? html`
-                  <div class="form-group">
-                    <label for="confirmPassword">Confirm Password</label>
-                    <input
-                      type="password"
-                      id="confirmPassword"
-                      placeholder="Confirm your password"
-                      .value="${this.confirmPassword}"
-                      @input="${(e: Event) =>
-                        (this.confirmPassword = (
-                          e.target as HTMLInputElement
-                        ).value)}"
-                      required
-                      aria-describedby="confirm-password-help"
-                    />
-                  </div>
+                  <input
+                    type="password"
+                    id="confirmPassword"
+                    placeholder="Confirm Password"
+                    .value="${this.confirmPassword}"
+                    @input="${(e: Event) =>
+                      (this.confirmPassword = (
+                        e.target as HTMLInputElement
+                      ).value)}"
+                    required
+                  />
                 `
               : ""}
 
@@ -166,7 +141,6 @@ export class LoginViewElement extends LitElement {
               @click="${this.isRegister
                 ? this.handleRegister
                 : this.handleLogin}"
-              aria-label="${this.isRegister ? 'Register' : 'Login'}"
             >
               ${this.isRegister ? "Register" : "Login"}
             </button>
@@ -196,9 +170,9 @@ export class LoginViewElement extends LitElement {
   static styles = css`
     :host {
       display: block;
-      height: 100%
-      background-color: #f7f7f7;
-      font-family: 'Arial', sans-serif;
+      background-color: #f5f5f5;
+      font-family: "Arial", sans-serif;
+      height: 100vh;
     }
 
     main.page {
@@ -207,82 +181,86 @@ export class LoginViewElement extends LitElement {
       align-items: center;
       height: 100%;
       padding: 20px;
-      box-sizing: border-box;
     }
 
     .form-container {
+      background-color: #ffffff;
+      padding: 40px;
       max-width: 400px;
       width: 100%;
-      background-color: #fff;
-      padding: 30px;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
       border: 1px solid #e0e0e0;
-      margin-top: 100px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
     }
 
-    h3 {
+    h2 {
       text-align: center;
-      margin-bottom: 25px;
-      font-size: 1.5em;
+      margin: 0 0 10px 0;
+      font-size: 1.75em;
     }
 
-    .form-group {
-      margin-bottom: 20px;
+    .subtitle {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #666;
     }
 
-    label {
-      font-weight: bold;
-      margin-bottom: 5px;
-      display: block;
-      color: #333;
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
     }
 
     input {
-      width: calc(100% - 20px);
-      padding: 10px;
-      margin-bottom: 15px;
+      padding: 12px;
+      font-size: 1em;
       border: 1px solid #ccc;
-      border-radius: 4px;
       box-sizing: border-box;
+      width: 100%;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #e46212;
     }
 
     button {
-      width: 100%;
-      padding: 12px;
       background-color: #e46212;
       color: #fff;
+      padding: 12px;
       font-size: 1em;
       border: none;
-      border-radius: 4px;
       cursor: pointer;
-      transition: background-color 0.3s ease;
+      transition: background-color 0.3s;
     }
 
     button:hover {
       background-color: #dd7535;
     }
 
-    p.toggle-link {
-      text-align: center;
-      margin-top: 20px;
-    }
-
-    p.toggle-link a {
-      color: #007bff;
-      text-decoration: none;
-    }
-
     .error-message {
-      color: #f44336;
+      color: #e74c3c;
       text-align: center;
-      margin-bottom: 10px;
     }
 
     .success-message {
-      color: #4caf50;
+      color: #27ae60;
       text-align: center;
-      margin-bottom: 10px;
+    }
+
+    .toggle-link {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 0.9em;
+    }
+
+    .toggle-link a {
+      color: #e46212;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .toggle-link a:hover {
+      text-decoration: underline;
     }
   `;
 }

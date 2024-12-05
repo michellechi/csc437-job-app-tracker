@@ -74,7 +74,7 @@ export class HeaderElement extends LitElement {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 10px 20px;
+      padding: 5px 15px;
     }
 
     .header_layout h1 {
