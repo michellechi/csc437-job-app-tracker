@@ -1,12 +1,14 @@
-import {Auth, define, History, Store, Switch} from "@calpoly/mustang";
-import {html, LitElement} from "lit";
+import { Auth, define, History, Store, Switch } from "@calpoly/mustang";
+import { html, LitElement } from "lit";
 
-import {HeaderElement} from "./components/header";
-import {HomeViewElement} from "./views/home-view";
-import {RecipeViewElement} from "./views/recipe-view";
-import {SearchViewElement} from "./views/search-view";
-import {AboutViewElement} from "./views/about-view.ts";
-import {LoginViewElement} from "./views/login-view";
+import { HeaderElement } from "./components/header";
+import { HomeViewElement } from "./views/home-view";
+import { RecipeViewElement } from "./views/recipe-view";
+import { RecipeSearchViewElement } from "./views/recipe-search-view.ts";
+import { AboutViewElement } from "./views/about-view.ts";
+import { LoginViewElement } from "./views/login-view";
+import { ApplicationViewElement } from "./views/application-view.ts";
+import { ApplicationSearchViewElement } from "./views/application-search-view.ts";
 
 import {Msg} from "./messages";
 import {Model, init} from "./model";
@@ -17,8 +19,10 @@ class AppElement extends LitElement {
         "home-view": HomeViewElement,
         "recipe-view": RecipeViewElement,
         "login-view": LoginViewElement,
-        "search-view": SearchViewElement,
+        "recipe-search-view": RecipeSearchViewElement,
         "about-view": AboutViewElement,
+        "application-view": ApplicationViewElement,
+        "application-search-view": ApplicationSearchViewElement,
 
         "mu-store": class AppStore extends Store.Provider<Model,
             Msg> {
@@ -51,15 +55,27 @@ const routes = [
             <login-view></login-view>`
     },
     {
-        path: "/app/search-view",
+        path: "/app/recipe-search-view",
         view: () => html`
-            <search-view></search-view>
+            <recipe-search-view></recipe-search-view>
         `
     },
     {
         path: "/app/about-view",
         view: () => html`
             <about-view></about-view>
+        `
+    },
+    {
+        path: "/app/applications/:id",
+        view: (params: Switch.Params) => html`
+            <application-view itemId="${params.id}"></application-view>
+        `
+    },
+    {
+        path: "/app/application-search-view",
+        view: () => html`
+            <application-search-view></application-search-view>
         `
     },
     {
@@ -80,7 +96,7 @@ define({
     "mu-history": History.Provider,
     "mu-store": class AppStore extends Store.Provider<Model, Msg> {
         constructor() {
-            super(update, { cartItems: [], companys: [], totalCost: 0,  recipes:[]}, "guru:auth");
+            super(update, { cartItems: [], companys: [], totalCost: 0,  recipes:[], applications:[]}, "guru:auth");
         }
     },
     "mu-switch": class AppSwitch extends Switch.Element {
@@ -90,5 +106,6 @@ define({
     },
     "grocery-guru-app": AppElement,
     "all-header": HeaderElement,
-    "recipe-view": RecipeViewElement
+    "recipe-view": RecipeViewElement,
+    "application-view": ApplicationViewElement
 });

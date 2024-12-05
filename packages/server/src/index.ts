@@ -2,9 +2,11 @@
 import express, { Request, Response } from "express";
 import { RecipePage } from "./pages/recipe";
 import Recipes_Mongo from "./services/recipe-svc-mongo";
+import Application_Mongo from "./services/application-svc-mongo";
 import auth, { authenticateUser } from "./routes/auth";
 import recipes from "./routes/recipes";
 import companys from "./routes/companys";
+import applications from "./routes/applications";
 import { connect } from "./services/mongo"; // Connect to the database
 import {LoginPage, RegistrationPage} from "./pages/auth"
 
@@ -27,6 +29,7 @@ app.use("/auth", auth);
 
 // Protected routes (example: recipes)
 app.use("/api/recipes", recipes);
+app.use("/api/applications", applications);
 // Companys API routes
 app.use("/api/companys", companys);
 //app.use("/api/recipes", authenticateUser, recipes); // Protect /api/recipes with the authentication middleware
@@ -51,6 +54,7 @@ app.get("/register", (req: Request, res: Response) => {
     const page = new RegistrationPage();
     res.set("Content-Type", "text/html").send(page.render());
 });
+
 // Route to get a recipe by ID and render it
 app.get("/recipe/:recipeId", async (req: Request, res: Response) => {
     const { recipeId } = req.params;
@@ -62,6 +66,19 @@ app.get("/recipe/:recipeId", async (req: Request, res: Response) => {
         res.set("Content-Type", "text/html").send(recipePage.render()); // Call render on the instance
     } catch (error) {
         res.status(500).send("Error fetching recipe.");
+    }
+});
+
+app.get("/application/:appId", async (req: Request, res: Response) => {
+    const { appId } = req.params;
+    try {
+        const data = await Application_Mongo.get(appId);
+        // Create an instance of Recipe for the response
+        // @ts-ignore
+        const applicationPage = new Application(data);
+        res.set("Content-Type", "text/html").send(applicationPage.render()); // Call render on the instance
+    } catch (error) {
+        res.status(500).send("Error fetching application.");
     }
 });
 

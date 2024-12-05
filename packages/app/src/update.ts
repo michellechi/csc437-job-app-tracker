@@ -1,7 +1,7 @@
 // @ts-ignore
 import { Auth, Update } from "@calpoly/mustang";
 import { Msg } from "./messages";
-import { CartItem, Model} from "./model";
+import { CartItem, Model } from "./model";
 
 export default function update(
     message: Msg,
@@ -69,28 +69,58 @@ export default function update(
             }));
             break;
         
-            case "cart/removeItem":
-                const { itemId } = message[1];
-                apply((model) => {
-                    // Find the index of the first item with the matching ID
-                    const itemIndex = model.cartItems.findIndex((item) => item.id === itemId);
-                    if (itemIndex !== -1) {
-                        // Create a new cart array without the specified item
-                        const updatedCart = [...model.cartItems];
-                        const [removedItem] = updatedCart.splice(itemIndex, 1);
-                        // Update the total cost
-                        const updatedTotalCost = model.totalCost - removedItem.price * (removedItem.quantity || 1);
-                        return {
-                            ...model,
-                            cartItems: updatedCart,
-                            totalCost: updatedTotalCost,
-                        };
-                    }
-                    // If no matching item is found, return the unchanged model
-                    return model;
+        case "cart/removeItem":
+            const { itemId } = message[1];
+            apply((model) => {
+                // Find the index of the first item with the matching ID
+                const itemIndex = model.cartItems.findIndex((item) => item.id === itemId);
+                if (itemIndex !== -1) {
+                    // Create a new cart array without the specified item
+                    const updatedCart = [...model.cartItems];
+                    const [removedItem] = updatedCart.splice(itemIndex, 1);
+                    // Update the total cost
+                    const updatedTotalCost = model.totalCost - removedItem.price * (removedItem.quantity || 1);
+                    return {
+                        ...model,
+                        cartItems: updatedCart,
+                        totalCost: updatedTotalCost,
+                    };
+                }
+                // If no matching item is found, return the unchanged model
+                return model;
+            });
+            break;
+        
+        case "applications/load":
+            fetchApplications(user)
+                .then((applications) =>
+                    apply((model) => ({
+                        ...model,
+                        applications,
+                    }))
+                )
+                .catch((error) => {
+                    console.error("Failed to fetch applications:", error);
                 });
-                break;
+            break;
     
+        case "applications/search":
+            console.log("DISPATCHING SEARCH QUERY:", message[1].query);
+            handleApplicationSearch(message[1].query, apply, user);
+            break;
+        
+        case "applications/delete":
+            const { id } = message[1];
+            apply((model) => {
+                const updatedApplications = model.applications.filter(
+                    (application) => application.id !== id
+                );
+                return {
+                    ...model,
+                    applications: updatedApplications,
+                };
+            });
+            break;
 
         default:
             const unhandled: never = message[0];
@@ -117,6 +147,50 @@ function fetchCompanys(user: Auth.User): Promise<Model["companys"]> {
             } else {
                 throw new Error("Unexpected response format");
             }
+        });
+}
+
+function fetchApplications(user: Auth.User): Promise<Model["applications"]> {
+    return fetch("/api/applications", {
+        headers: Auth.headers(user),
+    })
+        .then((response) => {
+            if (!response.ok) {
+                if (response.status === 401) {
+                    throw new Error("Unauthorized: User must log in.");
+                }
+                throw new Error(`API error: ${response.statusText}`);
+            }
+            return response.json();
+        })
+        .then((data) => {
+            if (Array.isArray(data)) {
+                return data as Model["applications"];
+            } else {
+                throw new Error("Unexpected response format");
+            }
+        });
+}
+
+function handleApplicationSearch(
+    query: string,
+    apply: Update.ApplyMap<Model>,
+    user: Auth.User
+) {
+    fetchApplications(user)
+        .then((applications) => {
+            console.log("FETCHED APPLICATIONS: ", applications);
+            const lowerCaseQuery = query.toLowerCase();
+            const filteredApplications = applications.filter((application) =>
+                application.title.toLowerCase().includes(lowerCaseQuery)
+            );
+            apply((model) => ({
+                ...model,
+                applications: filteredApplications,
+            }));
+        })
+        .catch((error) => {
+            console.error("Failed to fetch applications:", error);
         });
 }
 

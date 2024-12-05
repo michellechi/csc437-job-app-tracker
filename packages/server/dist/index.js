@@ -23,9 +23,11 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 ));
 var import_express = __toESM(require("express"));
 var import_recipe_svc_mongo = __toESM(require("./services/recipe-svc-mongo"));
+var import_application_svc_mongo = __toESM(require("./services/application-svc-mongo"));
 var import_auth = __toESM(require("./routes/auth"));
 var import_recipes = __toESM(require("./routes/recipes"));
 var import_companys = __toESM(require("./routes/companys"));
+var import_applications = __toESM(require("./routes/applications"));
 var import_mongo = require("./services/mongo");
 var import_auth2 = require("./pages/auth");
 (0, import_mongo.connect)("JopApp");
@@ -37,6 +39,7 @@ app.use(import_express.default.static(staticDir));
 app.use(import_express.default.json());
 app.use("/auth", import_auth.default);
 app.use("/api/recipes", import_recipes.default);
+app.use("/api/applications", import_applications.default);
 app.use("/api/companys", import_companys.default);
 app.get("/hello", (_, res) => {
   res.send(
@@ -62,6 +65,16 @@ app.get("/recipe/:recipeId", async (req, res) => {
     res.set("Content-Type", "text/html").send(recipePage.render());
   } catch (error) {
     res.status(500).send("Error fetching recipe.");
+  }
+});
+app.get("/application/:appId", async (req, res) => {
+  const { appId } = req.params;
+  try {
+    const data = await import_application_svc_mongo.default.get(appId);
+    const applicationPage = new Application(data);
+    res.set("Content-Type", "text/html").send(applicationPage.render());
+  } catch (error) {
+    res.status(500).send("Error fetching application.");
   }
 });
 app.listen(port, () => {

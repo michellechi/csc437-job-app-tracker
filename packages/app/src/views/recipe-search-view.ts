@@ -1,10 +1,11 @@
-// src/views/search-view.ts
+// src/views/recipe-search-view.ts
 import { define, View } from "@calpoly/mustang";
 import { css, html } from "lit";
 import { state } from "lit/decorators.js";
 import { Model } from "../model";
 import { Msg } from "../messages";
-export class SearchViewElement extends View<Model, Msg> {
+
+export class RecipeSearchViewElement extends View<Model, Msg> {
   @state()
   searchQuery: string = "";
   constructor() {
@@ -130,4 +131,4 @@ export class SearchViewElement extends View<Model, Msg> {
     }
   `;
 }
-define({ "search-view": SearchViewElement });
+define({ "recipe-search-view": RecipeSearchViewElement });

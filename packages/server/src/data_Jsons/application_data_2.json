@@ -1,0 +1,198 @@
+[
+    {
+      "id": "app6",
+      "title": "Frontend Engineer",
+      "company": {
+        "name": "Digital Innovations",
+        "location": "Austin, TX",
+        "website": "https://www.digitalinnovations.com"
+      },
+      "appliedDate": "2024-10-12T13:15:00Z",
+      "status": "Interview Scheduled",
+      "method": "Email",
+      "notes": "Initial interview scheduled for Monday."
+    },
+    {
+      "id": "app7",
+      "title": "Systems Engineer",
+      "company": {
+        "name": "Innovative Systems",
+        "location": "San Francisco, CA",
+        "website": "https://www.innovativesystems.com"
+      },
+      "appliedDate": "2024-09-28T09:45:00Z",
+      "status": "Accepted",
+      "method": "Recruiter",
+      "notes": "Offer received and accepted."
+    },
+    {
+      "id": "app8",
+      "title": "Game Developer",
+      "company": {
+        "name": "GameX Studios",
+        "location": "Los Angeles, CA",
+        "website": "https://www.gamexstudios.com"
+      },
+      "appliedDate": "2024-09-18T14:30:00Z",
+      "status": "Pending",
+      "method": "Handshake",
+      "notes": "Applied after meeting the recruiter at a university career fair."
+    },
+    {
+      "id": "app9",
+      "title": "Blockchain Developer",
+      "company": {
+        "name": "CryptoTech",
+        "location": "New York, NY",
+        "website": "https://www.cryptotech.com"
+      },
+      "appliedDate": "2024-10-01T16:00:00Z",
+      "status": "Rejected",
+      "method": "Company Site",
+      "notes": "Rejected after initial technical screening."
+    },
+    {
+      "id": "app10",
+      "title": "Sales Engineer",
+      "company": {
+        "name": "SalesForce Technologies",
+        "location": "San Francisco, CA",
+        "website": "https://www.salesforcetech.com"
+      },
+      "appliedDate": "2024-10-10T12:45:00Z",
+      "status": "Interview Scheduled",
+      "method": "LinkedIn",
+      "notes": "Followed up with recruiter for scheduling."
+    },
+    {
+      "id": "app11",
+      "title": "Data Engineer",
+      "company": {
+        "name": "DataWorks",
+        "location": "Austin, TX",
+        "website": "https://www.dataworks.com"
+      },
+      "appliedDate": "2024-10-02T09:00:00Z",
+      "status": "Pending",
+      "method": "Email",
+      "notes": "Waiting for a response after sending follow-up email."
+    },
+    {
+      "id": "app12",
+      "title": "Business Development Representative",
+      "company": {
+        "name": "GrowthTech",
+        "location": "Dallas, TX",
+        "website": "https://www.growthtech.com"
+      },
+      "appliedDate": "2024-09-30T11:20:00Z",
+      "status": "Pending",
+      "method": "Company Site",
+      "notes": "Applied directly through company's portal."
+    },
+    {
+      "id": "app13",
+      "title": "Database Administrator",
+      "company": {
+        "name": "TechDB Solutions",
+        "location": "Atlanta, GA",
+        "website": "https://www.techdbsolutions.com"
+      },
+      "appliedDate": "2024-09-20T10:30:00Z",
+      "status": "Rejected",
+      "method": "Referral",
+      "notes": "Position filled internally, no further action needed."
+    },
+    {
+      "id": "app14",
+      "title": "Machine Learning Engineer",
+      "company": {
+        "name": "ML Vision",
+        "location": "Boston, MA",
+        "website": "https://www.mlvision.com"
+      },
+      "appliedDate": "2024-10-08T13:00:00Z",
+      "status": "Interview Scheduled",
+      "method": "Handshake",
+      "notes": "Scheduled for technical interview next week."
+    },
+    {
+      "id": "app15",
+      "title": "IT Support Specialist",
+      "company": {
+        "name": "TechHelp Inc.",
+        "location": "Miami, FL",
+        "website": "https://www.techhelp.com"
+      },
+      "appliedDate": "2024-09-22T09:30:00Z",
+      "status": "Submitted",
+      "method": "LinkedIn",
+      "notes": "Applied via LinkedIn job post."
+    },
+    {
+        "id": "app16",
+        "title": "AI Research Intern",
+        "company": {
+          "name": "Tech AI Labs",
+          "location": "Boston, MA",
+          "website": "https://www.techailabs.com"
+        },
+        "appliedDate": "2024-11-01T10:00:00Z",
+        "status": "Pending",
+        "method": "Company Site",
+        "notes": "Applied through the company's career page."
+    },
+    {
+        "id": "app17",
+        "title": "Cloud Architect",
+        "company": {
+          "name": "CloudTech Solutions",
+          "location": "Seattle, WA",
+          "website": "https://www.cloudtechsolutions.com"
+        },
+        "appliedDate": "2024-10-20T14:30:00Z",
+        "status": "Interview Scheduled",
+        "method": "LinkedIn",
+        "notes": "Interview scheduled for next Wednesday."
+      },
+      {
+        "id": "app18",
+        "title": "Cybersecurity Analyst",
+        "company": {
+          "name": "SecureTech",
+          "location": "Washington, D.C.",
+          "website": "https://www.securetech.com"
+        },
+        "appliedDate": "2024-10-17T11:00:00Z",
+        "status": "Submitted",
+        "method": "Referral",
+        "notes": "Referred by a colleague who works at the company."
+      },
+      {
+        "id": "app19",
+        "title": "Mobile App Developer",
+        "company": {
+          "name": "AppX Studios",
+          "location": "Los Angeles, CA",
+          "website": "https://www.appxstudios.com"
+        },
+        "appliedDate": "2024-09-25T12:00:00Z",
+        "status": "Pending",
+        "method": "Company Site",
+        "notes": "Applied via the company's job portal."
+      },
+      {
+        "id": "app20",
+        "title": "Network Engineer",
+        "company": {
+          "name": "GlobalNet Solutions",
+          "location": "Chicago, IL",
+          "website": "https://www.globalnetsolutions.com"
+        },
+        "appliedDate": "2024-10-05T08:30:00Z",
+        "status": "Rejected",
+        "method": "LinkedIn",
+        "notes": "Position filled by an internal candidate."
+      }
+  ]
+  

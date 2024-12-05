@@ -1,0 +1,122 @@
+[
+    {
+      "id": "app1",
+      "title": "Software Engineer",
+      "company": {
+        "id": "company1",
+        "name": "Tech Innovations Inc.",
+        "state": "CA",
+        "city": "San Francisco",
+        "streetAddress": "123 Silicon St.",
+        "items": [
+          {
+            "id": "item1",
+            "name": "Laptop",
+            "price": 1200,
+            "category": "Electronics",
+            "storeId": "store1"
+          },
+          {
+            "id": "item2",
+            "name": "Monitor",
+            "price": 350,
+            "category": "Electronics",
+            "storeId": "store1"
+          }
+        ]
+      },
+      "appliedDate": "2024-11-01T00:00:00Z",
+      "status": "Pending",
+      "method": "Company Site",
+      "notes": "Applied through the company's careers page."
+    },
+    {
+      "id": "app2",
+      "title": "Data Scientist",
+      "company": {
+        "id": "company2",
+        "name": "DataCorp",
+        "state": "NY",
+        "city": "New York",
+        "streetAddress": "456 Data Ave.",
+        "items": [
+          {
+            "id": "item3",
+            "name": "Server",
+            "price": 2500,
+            "category": "Electronics",
+            "storeId": "store2"
+          }
+        ]
+      },
+      "appliedDate": "2024-10-20T00:00:00Z",
+      "status": "Submitted",
+      "method": "LinkedIn",
+      "notes": "Referred by a connection on LinkedIn."
+    },
+    {
+      "id": "app3",
+      "title": "Product Manager",
+      "company": {
+        "id": "company3",
+        "name": "Product Solutions LLC",
+        "state": "TX",
+        "city": "Austin",
+        "streetAddress": "789 Product Blvd.",
+        "items": [
+          {
+            "id": "item4",
+            "name": "Office Chair",
+            "price": 200,
+            "category": "Furniture",
+            "storeId": "store3"
+          }
+        ]
+      },
+      "appliedDate": "2024-10-15T00:00:00Z",
+      "status": "Interview Scheduled",
+      "method": "Email",
+      "notes": "Initial phone interview scheduled for next week."
+    },
+    {
+      "id": "app4",
+      "title": "UX Designer",
+      "company": {
+        "id": "company4",
+        "name": "Design Pros",
+        "state": "CA",
+        "city": "Los Angeles",
+        "streetAddress": "101 Design St.",
+        "items": []
+      },
+      "appliedDate": "2024-09-28T00:00:00Z",
+      "status": "Accepted",
+      "method": "Referral",
+      "notes": "Accepted the offer after successful interviews."
+    },
+    {
+      "id": "app5",
+      "title": "Web Developer",
+      "company": {
+        "id": "company5",
+        "name": "WebWorks",
+        "state": "WA",
+        "city": "Seattle",
+        "streetAddress": "202 Web Rd.",
+        "items": [
+          {
+            "id": "item5",
+            "name": "Web Hosting Service",
+            "price": 100,
+            "category": "Services",
+            "storeId": "store4"
+          }
+        ]
+      },
+      "appliedDate": "2024-09-05T00:00:00Z",
+      "status": "Rejected",
+      "method": "Handshake",
+      "notes": "Unfortunately, the application was rejected after the technical interview."
+    }
+]
+  

@@ -7,6 +7,9 @@ export interface Item {
 export interface Company {
     name: string;
     items: Item[];
+    city: string;
+    state: string;
+    streetAddress: string;
 }
 
 export interface CartItem {
@@ -22,11 +25,22 @@ export interface Recipe {
     name: string;
 }
 
+export interface Application {
+    id: string;
+    title: string;
+    company: Company;
+    appliedDate: Date;
+    status: string;
+    method: string;
+    notes?: string;
+}
+
 export interface Model {
     companys: Company[];
     cartItems: CartItem[];
     totalCost: number;
     recipes: Recipe[];
+    applications: Application[];
 }
 
 export const init: Model = {
@@ -34,4 +48,5 @@ export const init: Model = {
     cartItems: [],
     totalCost: 0,
     recipes: [],
+    applications: []
 };

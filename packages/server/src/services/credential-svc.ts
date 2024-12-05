@@ -2,7 +2,6 @@
 import bcrypt from "bcryptjs";
 import { Schema, model } from "mongoose";
 import { Credential } from "../models/credential";
-import {Recipe} from "../pages/recipe";
 
 const credentialSchema = new Schema<Credential>(
     {

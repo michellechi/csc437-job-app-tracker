@@ -22,6 +22,7 @@ export class LoginViewElement extends LitElement {
   @state()
   isRegister: boolean = false; // Toggles between Login and Register views
 
+  // Handles the login logic
   handleLogin() {
     console.log("Attempting login with:", { username: this.username });
 
@@ -36,7 +37,7 @@ export class LoginViewElement extends LitElement {
       .then((response) => {
         if (response.ok) {
           console.log("Login successful!");
-          window.location.href = "/app"; // Redirect to home page
+          window.location.href = "/";
         } else {
           throw new Error("Invalid username or password");
         }
@@ -47,6 +48,7 @@ export class LoginViewElement extends LitElement {
       });
   }
 
+  // Handles the registration logic
   handleRegister() {
     console.log("Attempting registration with:", {
       username: this.username,
@@ -86,6 +88,7 @@ export class LoginViewElement extends LitElement {
       });
   }
 
+  // Toggles between login and registration views
   toggleView() {
     this.isRegister = !this.isRegister;
     this.errorMessage = "";
@@ -98,8 +101,10 @@ export class LoginViewElement extends LitElement {
   render() {
     return html`
       <main class="page">
-        <section>
+        <section class="form-container">
           <h3>${this.isRegister ? "Register" : "Log in"}</h3>
+          
+          <!-- Display error or success messages -->
           ${this.errorMessage
             ? html`<p class="error-message">${this.errorMessage}</p>`
             : ""}
@@ -107,8 +112,9 @@ export class LoginViewElement extends LitElement {
             ? html`<p class="success-message">${this.successMessage}</p>`
             : ""}
 
+          <!-- Form for login or registration -->
           <form @submit="${(e: Event) => e.preventDefault()}">
-            <div>
+            <div class="form-group">
               <label for="username">Username</label>
               <input
                 type="text"
@@ -117,9 +123,12 @@ export class LoginViewElement extends LitElement {
                 .value="${this.username}"
                 @input="${(e: Event) =>
                   (this.username = (e.target as HTMLInputElement).value)}"
+                required
+                aria-describedby="username-help"
               />
             </div>
-            <div>
+            
+            <div class="form-group">
               <label for="password">Password</label>
               <input
                 type="password"
@@ -128,12 +137,14 @@ export class LoginViewElement extends LitElement {
                 .value="${this.password}"
                 @input="${(e: Event) =>
                   (this.password = (e.target as HTMLInputElement).value)}"
+                required
+                aria-describedby="password-help"
               />
             </div>
 
             ${this.isRegister
               ? html`
-                  <div>
+                  <div class="form-group">
                     <label for="confirmPassword">Confirm Password</label>
                     <input
                       type="password"
@@ -144,6 +155,8 @@ export class LoginViewElement extends LitElement {
                         (this.confirmPassword = (
                           e.target as HTMLInputElement
                         ).value)}"
+                      required
+                      aria-describedby="confirm-password-help"
                     />
                   </div>
                 `
@@ -153,12 +166,14 @@ export class LoginViewElement extends LitElement {
               @click="${this.isRegister
                 ? this.handleRegister
                 : this.handleLogin}"
+              aria-label="${this.isRegister ? 'Register' : 'Login'}"
             >
               ${this.isRegister ? "Register" : "Login"}
             </button>
           </form>
 
-          <p>
+          <!-- Toggle between login and registration view -->
+          <p class="toggle-link">
             ${this.isRegister
               ? html`
                   Already have an account?
@@ -179,73 +194,93 @@ export class LoginViewElement extends LitElement {
   }
 
   static styles = css`
+    :host {
+      display: block;
+      height: 100%
+      background-color: #f7f7f7;
+      font-family: 'Arial', sans-serif;
+    }
+
     main.page {
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 100vh;
-      background-color: var(--color-background);
+      height: 100%;
+      padding: 20px;
+      box-sizing: border-box;
     }
 
-    section {
+    .form-container {
       max-width: 400px;
       width: 100%;
-      background-color: var(--color-background-card);
-      padding: 20px;
+      background-color: #fff;
+      padding: 30px;
       border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      border: 1px solid #ccc;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      border: 1px solid #e0e0e0;
+      margin-top: 100px;
     }
 
     h3 {
       text-align: center;
+      margin-bottom: 25px;
+      font-size: 1.5em;
+    }
+
+    .form-group {
       margin-bottom: 20px;
     }
 
     label {
-      display: block;
-      margin-bottom: 5px;
       font-weight: bold;
+      margin-bottom: 5px;
+      display: block;
+      color: #333;
     }
 
     input {
-      width: calc(100% - 20px); /* Adjust width to account for padding */
+      width: calc(100% - 20px);
       padding: 10px;
       margin-bottom: 15px;
       border: 1px solid #ccc;
       border-radius: 4px;
-      box-sizing: border-box; /* Ensure padding and border are included in the width */
+      box-sizing: border-box;
     }
 
     button {
       width: 100%;
-      padding: 10px;
-      background-color: var(--color-primary);
-      color: var(--color-text-light);
-      font-size: var(--size-type-medium);
+      padding: 12px;
+      background-color: #e46212;
+      color: #fff;
+      font-size: 1em;
+      border: none;
       border-radius: 4px;
       cursor: pointer;
-      border: 1px solid #ccc;
-      transition: background-color 0.3s ease; /* Smooth hover effect */
-    }
-      
-    button:hover {
-      background-color: var(--button-hover-bg, grey);
+      transition: background-color 0.3s ease;
     }
 
-    p {
+    button:hover {
+      background-color: #dd7535;
+    }
+
+    p.toggle-link {
       text-align: center;
-      margin-top: 15px;
+      margin-top: 20px;
+    }
+
+    p.toggle-link a {
+      color: #007bff;
+      text-decoration: none;
     }
 
     .error-message {
-      color: var(--color-error);
+      color: #f44336;
       text-align: center;
       margin-bottom: 10px;
     }
 
     .success-message {
-      color: var(--color-success);
+      color: #4caf50;
       text-align: center;
       margin-bottom: 10px;
     }
