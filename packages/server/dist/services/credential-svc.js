@@ -53,7 +53,6 @@ const credentialModel = (0, import_mongoose.model)(
 );
 function create(username, password) {
   return new Promise((resolve, reject) => {
-    console.log("function create");
     if (!username || !password) {
       reject("Must provide username and password");
     }

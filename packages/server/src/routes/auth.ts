@@ -5,10 +5,13 @@ import express, {
     Request,
     Response
 } from "express";
+
 import jwt from "jsonwebtoken";
+
 import credentials from "../services/credential-svc";
 
 const router = express.Router();
+
 dotenv.config();
 const TOKEN_SECRET: string =
     process.env.TOKEN_SECRET || "NOT_A_SECRET";
@@ -19,7 +22,7 @@ function generateAccessToken(username: string): Promise<string> {
             { username: username },
             TOKEN_SECRET,
             { expiresIn: "1d" },
-            (error: any, token: string | undefined) => { 
+            (error, token: string | undefined) => { // Explicitly define token as string | undefined
                 if (error || !token) {
                     reject(error || new Error("Token generation failed"));
                 } else {
@@ -30,9 +33,9 @@ function generateAccessToken(username: string): Promise<string> {
     });
 }
 
+
 router.post("/register", (req: Request, res: Response) => {
-    console.log("Register route hit");
-    const { username, password } = req.body;
+    const { username, password } = req.body; // from form
 
     if (!username || !password) {
         res.status(400).send("Bad request: Invalid input data.");
@@ -42,8 +45,7 @@ router.post("/register", (req: Request, res: Response) => {
             .then((creds) => generateAccessToken(creds.username))
             .then((token) => {
                 res.status(201).send({ token: token });
-            })
-            .catch((err) => res.status(500).send("Error during registration"));
+            });
     }
 });
 

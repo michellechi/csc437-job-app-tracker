@@ -1,22 +1,37 @@
-export interface Application {
+export interface Item {
+    id: string;
     name: string;
-    items: Array<{ name: string; price: number }>;
+    price: number;
+}
+
+export interface Company {
+    name: string;
+    items: Item[];
 }
 
 export interface CartItem {
+    id: string;
     name: string;
     price: number;
-    applicationName: string;
+    companyName: string;
+    quantity?: number;
+}
+
+export interface Recipe {
+    id: string;
+    name: string;
 }
 
 export interface Model {
-    applications: Application[];
+    companys: Company[];
     cartItems: CartItem[];
     totalCost: number;
+    recipes: Recipe[];
 }
 
 export const init: Model = {
-    applications: [],
+    companys: [],
     cartItems: [],
     totalCost: 0,
+    recipes: [],
 };

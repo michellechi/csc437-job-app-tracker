@@ -1,59 +1,71 @@
+// src/index.ts
 import express, { Request, Response } from "express";
-import Applications from "./services/application-svc-mongo";
-import { connect } from "./services/mongo";
-import applications from "./routes/applications";
+import { RecipePage } from "./pages/recipe";
+import Recipes_Mongo from "./services/recipe-svc-mongo";
 import auth, { authenticateUser } from "./routes/auth";
-import { LoginPage } from "./pages/auth";
-import fs from "node:fs/promises";
-import path from "path";
+import recipes from "./routes/recipes";
+import companys from "./routes/companys";
+import { connect } from "./services/mongo"; // Connect to the database
+import {LoginPage, RegistrationPage} from "./pages/auth"
 
-connect("JobApp");
+// Connect to the database
+connect("JopApp"); // Use your own DB name here
 
 const app = express();
 const port = process.env.PORT || 3000;
-const staticDir = process.env.STATIC || "public";
 
+// Serve static files from the specified directory
+const staticDir = process.env.STATIC || "public";
+console.log("Serving static files from ", staticDir);
 app.use(express.static(staticDir));
-app.use("/api/applications", authenticateUser, applications);
-app.use("/auth", auth);
+
+// Middleware to parse incoming JSON requests
 app.use(express.json());
 
-app.get("/hello", (req: Request, res: Response) => {
-    res.send("Hello, World");
-});
+// Authentication routes
+app.use("/auth", auth);
 
-app.use("/app", (req: Request, res: Response) => {
-    const indexHtml = path.resolve(staticDir, "index.html");
-    fs.readFile(indexHtml, { encoding: "utf8"}).then((html) =>
-        res.send(html)
+// Protected routes (example: recipes)
+app.use("/api/recipes", recipes);
+// Companys API routes
+app.use("/api/companys", companys);
+//app.use("/api/recipes", authenticateUser, recipes); // Protect /api/recipes with the authentication middleware
+//app.use("/api/companys", authenticateUser, companys); // Protect /api/recipes with the authentication middleware
+
+// Example route to check if the server is running
+app.get("/hello", (_: Request, res: Response) => {
+    res.send(
+        `<h1>Hello!</h1>
+         <p>Server is up and running.</p>
+         <p>Serving static files from <code>${staticDir}</code>.</p>
+        `
     );
-})
-
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
 });
 
 app.get("/login", (req: Request, res: Response) => {
     const page = new LoginPage();
     res.set("Content-Type", "text/html").send(page.render());
-});  
+});
 
-// app.get("/applications/:id", (req: Request, res: Response) => {
-//     const { id } = req.params;
-
-//     Applications.get(id)
-//         .then((data) => {
-//             const page = new ApplicationPage(data);
-//         res.set("Content-Type", "text/html").send(page.render());
-//     });
-// });
-
-app.post("/api/applications", async (req, res) => {
-    const applicationData = req.body;
+app.get("/register", (req: Request, res: Response) => {
+    const page = new RegistrationPage();
+    res.set("Content-Type", "text/html").send(page.render());
+});
+// Route to get a recipe by ID and render it
+app.get("/recipe/:recipeId", async (req: Request, res: Response) => {
+    const { recipeId } = req.params;
     try {
-        const newApplication = await Applications.create(applicationData);
-        res.status(201).json(newApplication);
+        const data = await Recipes_Mongo.get(recipeId);
+        // Create an instance of Recipe for the response
+        // @ts-ignore
+        const recipePage = new Recipe(data);
+        res.set("Content-Type", "text/html").send(recipePage.render()); // Call render on the instance
     } catch (error) {
-        res.status(400).send(error);
+        res.status(500).send("Error fetching recipe.");
     }
+});
+
+// Start the server
+app.listen(port, () => {
+    console.log(`Server running at http://localhost:${port}`);
 });

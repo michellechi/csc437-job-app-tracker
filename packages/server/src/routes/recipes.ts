@@ -25,7 +25,6 @@ router.get("/:id", (req: Request, res: Response) => {
 });
 
 router.post("/", (req: Request, res: Response) => {
-    res.send("in router.post");
     const newRecipeData = req.body;
 
     Recipes_Mongo.create(newRecipeData)

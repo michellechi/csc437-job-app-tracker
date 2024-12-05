@@ -2,7 +2,7 @@
 import renderPage from "./renderPage";
 // @ts-ignore
 import { css, html } from "@calpoly/mustang/server";
-import { Recipe } from "../models/recipe";
+import { Recipe } from "../models/recipe"; // Ensure this is your Recipe model
 
 export class RecipePage {
     data: Recipe;

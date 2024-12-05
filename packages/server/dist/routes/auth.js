@@ -56,14 +56,13 @@ function generateAccessToken(username) {
   });
 }
 router.post("/register", (req, res) => {
-  console.log("Register route hit");
   const { username, password } = req.body;
   if (!username || !password) {
     res.status(400).send("Bad request: Invalid input data.");
   } else {
     import_credential_svc.default.create(username, password).then((creds) => generateAccessToken(creds.username)).then((token) => {
       res.status(201).send({ token });
-    }).catch((err) => res.status(500).send("Error during registration"));
+    });
   }
 });
 router.post("/login", (req, res) => {

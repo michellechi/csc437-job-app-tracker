@@ -26,38 +26,38 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   mod
 ));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
-var applications_exports = {};
-__export(applications_exports, {
-  default: () => applications_default
+var vendors_exports = {};
+__export(vendors_exports, {
+  default: () => vendors_default
 });
-module.exports = __toCommonJS(applications_exports);
+module.exports = __toCommonJS(vendors_exports);
 var import_express = __toESM(require("express"));
-var import_application_svc_mongo = __toESM(require("../services/application-svc-mongo"));
+var import_vendor_svc_mongo = __toESM(require("../services/vendor-svc-mongo"));
 const router = import_express.default.Router();
 router.get("/", (_, res) => {
-  import_application_svc_mongo.default.index().then((list) => res.json(list)).catch((err) => res.status(500).send(err));
+  import_vendor_svc_mongo.default.index().then((list) => res.json(list)).catch((err) => res.status(500).send(err));
 });
 router.get("/:id", (req, res) => {
   const { id } = req.params;
-  import_application_svc_mongo.default.get(id).then((application) => {
-    if (application) {
-      return res.json(application);
+  import_vendor_svc_mongo.default.get(id).then((vendor) => {
+    if (vendor) {
+      return res.json(vendor);
     } else {
-      return res.status(404).send({ error: "Application not found" });
+      return res.status(404).send({ error: "Vendor not found" });
     }
   }).catch((err) => res.status(500).send(err));
 });
 router.post("/", (req, res) => {
-  const newApplicationData = req.body;
-  import_application_svc_mongo.default.create(newApplicationData).then((application) => res.status(201).json(application)).catch((err) => res.status(500).send(err));
+  const newVendorData = req.body;
+  import_vendor_svc_mongo.default.create(newVendorData).then((vendor) => res.status(201).json(vendor)).catch((err) => res.status(500).send(err));
 });
 router.put("/:id", (req, res) => {
   const { id } = req.params;
-  const updatedApplicationData = req.body;
-  import_application_svc_mongo.default.update(id, updatedApplicationData).then((updatedApplication) => res.json(updatedApplication)).catch((err) => res.status(404).send({ error: "Application not found" }));
+  const updatedVendorData = req.body;
+  import_vendor_svc_mongo.default.update(id, updatedVendorData).then((updatedVendor) => res.json(updatedVendor)).catch((err) => res.status(404).send({ error: "Vendor not found" }));
 });
 router.delete("/:id", (req, res) => {
   const { id } = req.params;
-  import_application_svc_mongo.default.remove(id).then(() => res.status(204).end()).catch((err) => res.status(404).send({ error: "Application not found" }));
+  import_vendor_svc_mongo.default.remove(id).then(() => res.status(204).end()).catch((err) => res.status(404).send({ error: "Vendor not found" }));
 });
-var applications_default = router;
+var vendors_default = router;

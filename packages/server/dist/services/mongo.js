@@ -31,8 +31,8 @@ __export(mongo_exports, {
   connect: () => connect
 });
 module.exports = __toCommonJS(mongo_exports);
-var import_mongoose = __toESM(require("mongoose"));
 var import_dotenv = __toESM(require("dotenv"));
+var import_mongoose = __toESM(require("mongoose"));
 import_mongoose.default.set("debug", true);
 import_dotenv.default.config();
 function getMongoURI(dbname) {

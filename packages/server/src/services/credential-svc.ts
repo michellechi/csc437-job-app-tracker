@@ -2,6 +2,7 @@
 import bcrypt from "bcryptjs";
 import { Schema, model } from "mongoose";
 import { Credential } from "../models/credential";
+import {Recipe} from "../pages/recipe";
 
 const credentialSchema = new Schema<Credential>(
     {
@@ -28,7 +29,6 @@ const credentialModel = model<Credential>(
 // -d '{"username": "test", "password": "password"}'
 function create(username: string, password: string){
     return new Promise<Credential>((resolve, reject) => {
-        console.log("function create");
         if(!username || !password){
             reject("Must provide username and password");
         }
@@ -88,4 +88,7 @@ function verify(
     });
 }
 
-export default { create, verify };
+/**
+ * Create an account and verify logins
+ * */
+export default{create, verify};

@@ -9,30 +9,36 @@ import { Model } from "../model";
 import { Msg } from "../messages";
 
 export class HomeViewElement extends View<Model, Msg> {
-    @state()
-    searchQuery: string = "";
+  @state()
+  searchQuery: string = "";
 
-    constructor() {
-        super("guru:model"); // Connect to mu-store
-    }
+  constructor() {
+    super("guru:model"); // Connect to mu-store
+  }
 
-    connectedCallback() {
-        super.connectedCallback();
-        // @ts-ignore
-        this.dispatchMessage(["applications/load"]); // Trigger application fetching when the view is initialized
-    }
+  connectedCallback() {
+    super.connectedCallback();
+    // @ts-ignore
+    this.dispatchMessage(["companys/load"]); // Trigger company fetching when the view is initialized
+  }
 
-    handleSearch() {
-        const query = this.searchQuery.toLowerCase();
-        // @ts-ignore
-        this.dispatchMessage(["search/item", { query }]);
-        this.searchQuery = ""; // Reset search query
-    }
+  handleSearch() {
+    const query = this.searchQuery.toLowerCase();
+    // @ts-ignore
+    this.dispatchMessage(["search/item", { query }]);
+    this.searchQuery = ""; // Reset search query
+  }
 
-    render() {
-        const { cartItems = [], totalCost = 0 } = this.model;
+  handleRemove(itemId: string) {
+    // Dispatch a message to remove the item from the cart
+    // @ts-ignore
+    this.dispatchMessage(["cart/removeItem", { itemId }]);
+  }
 
-        return html`
+  render() {
+    const { cartItems = [], totalCost = 0 } = this.model;
+
+    return html`
       <main>
         <section class="search-section">
           <h2>Search for Items</h2>
@@ -43,7 +49,7 @@ export class HomeViewElement extends View<Model, Msg> {
               placeholder="Enter item name..."
               .value="${this.searchQuery}"
               @input="${(e: Event) =>
-            (this.searchQuery = (e.target as HTMLInputElement).value)}"
+                (this.searchQuery = (e.target as HTMLInputElement).value)}"
             />
             <button @click="${this.handleSearch}">Add to Cart</button>
           </div>
@@ -57,58 +63,90 @@ export class HomeViewElement extends View<Model, Msg> {
           </div>
           <ul class="cart-items">
             ${cartItems.map(
-            (item) =>
+              (item) =>
                 html`
                   <li>
-                    ${item.name} (Application: ${item.applicationName}): $
+                    ${item.name} (Company: ${item.companyName}): $
                     ${item.price.toFixed(2)}
                   </li>
                 `
-        )}
+            )}
           </ul>
         </section>
       </main>
     `;
-    }
+  }
 
-    static styles = css`
-      main {
+  static styles = css`
+    /* General Styling */
+    main {
         padding: 20px;
-      }
-
-      .search-section {
+        font-family: 'Arial', sans-serif;
+    }
+    /* Search Section Styling */
+    .search-section {
         margin-bottom: 20px;
-      }
-
-      .search-bar {
+    }
+    .search-bar {
         display: flex;
-        gap: 10px;
-      }
-
-      input {
+    }
+    input {
         flex: 1;
         padding: 10px;
-      }
-
-      button {
+        border: 1px solid #ccc;
+        border-right: none;
+        border-top-left-radius: 25px;
+        border-bottom-left-radius: 25px;
+        outline: none;
+    }
+    button {
         padding: 10px 20px;
         cursor: pointer;
-      }
-
-      .cart-section {
+        border: 1px solid #ccc;
+        border-left: none;
+        border-top-right-radius: 25px;
+        border-bottom-right-radius: 25px;
+        background-color: var(--button-bg, black);
+        color: var(--button-text, white);
+        transition: background-color 0.3s ease; /* Smooth hover effect */
+    }
+    button:hover {
+        background-color: var(--button-hover-bg, grey);
+    }
+    /* Cart Section Styling */
+    .cart-section {
         margin-top: 20px;
-      }
-
-      .cart-items {
+    }
+    .cart-items {
         list-style-type: none;
         padding: 0;
         margin: 10px 0;
-      }
-
-      .cart-items li {
+    }
+    .cart-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
         padding: 5px 0;
-      }
-    `;
+    }
+    .remove-btn {
+        background-color: red;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    .remove-btn:hover {
+        background-color: darkred;
+    }
+    /* Dark Mode Placeholder */
+    :host([theme="dark"]) {
+        --button-bg: #333;
+        --button-hover-bg: #555;
+        --button-text: white;
+    }
+  `;
 }
 
 define({ "home-view": HomeViewElement });

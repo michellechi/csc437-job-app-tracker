@@ -22,43 +22,48 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   mod
 ));
 var import_express = __toESM(require("express"));
-var import_application_svc_mongo = __toESM(require("./services/application-svc-mongo"));
-var import_mongo = require("./services/mongo");
-var import_applications = __toESM(require("./routes/applications"));
+var import_recipe_svc_mongo = __toESM(require("./services/recipe-svc-mongo"));
 var import_auth = __toESM(require("./routes/auth"));
+var import_recipes = __toESM(require("./routes/recipes"));
+var import_companys = __toESM(require("./routes/companys"));
+var import_mongo = require("./services/mongo");
 var import_auth2 = require("./pages/auth");
-var import_promises = __toESM(require("node:fs/promises"));
-var import_path = __toESM(require("path"));
-(0, import_mongo.connect)("JobApp");
+(0, import_mongo.connect)("JopApp");
 const app = (0, import_express.default)();
 const port = process.env.PORT || 3e3;
 const staticDir = process.env.STATIC || "public";
+console.log("Serving static files from ", staticDir);
 app.use(import_express.default.static(staticDir));
-app.use("/api/applications", import_auth.authenticateUser, import_applications.default);
-app.use("/auth", import_auth.default);
 app.use(import_express.default.json());
-app.get("/hello", (req, res) => {
-  res.send("Hello, World");
-});
-app.use("/app", (req, res) => {
-  const indexHtml = import_path.default.resolve(staticDir, "index.html");
-  import_promises.default.readFile(indexHtml, { encoding: "utf8" }).then(
-    (html) => res.send(html)
+app.use("/auth", import_auth.default);
+app.use("/api/recipes", import_recipes.default);
+app.use("/api/companys", import_companys.default);
+app.get("/hello", (_, res) => {
+  res.send(
+    `<h1>Hello!</h1>
+         <p>Server is up and running.</p>
+         <p>Serving static files from <code>${staticDir}</code>.</p>
+        `
   );
-});
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
 });
 app.get("/login", (req, res) => {
   const page = new import_auth2.LoginPage();
   res.set("Content-Type", "text/html").send(page.render());
 });
-app.post("/api/applications", async (req, res) => {
-  const applicationData = req.body;
+app.get("/register", (req, res) => {
+  const page = new import_auth2.RegistrationPage();
+  res.set("Content-Type", "text/html").send(page.render());
+});
+app.get("/recipe/:recipeId", async (req, res) => {
+  const { recipeId } = req.params;
   try {
-    const newApplication = await import_application_svc_mongo.default.create(applicationData);
-    res.status(201).json(newApplication);
+    const data = await import_recipe_svc_mongo.default.get(recipeId);
+    const recipePage = new Recipe(data);
+    res.set("Content-Type", "text/html").send(recipePage.render());
   } catch (error) {
-    res.status(400).send(error);
+    res.status(500).send("Error fetching recipe.");
   }
+});
+app.listen(port, () => {
+  console.log(`Server running at http://localhost:${port}`);
 });

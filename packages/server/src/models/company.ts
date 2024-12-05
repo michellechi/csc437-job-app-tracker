@@ -1,13 +1,19 @@
-import { Point } from "./geo";
 
-export interface Company {
+
+export interface Company{
+    id: string;
     name: string;
-    location: Point | undefined;
-    industry: string;
-    contacts?: Array<Contact>
+    state: string;
+    city: string;
+    streetAddress: string;
+    items: Item[];
 }
 
-export interface Contact {
+export interface Item{
+    id: string;
     name: string;
-    phoneNumber: string;
+    price: number;
+    category: string;
+    storeId: string;
 }
+
