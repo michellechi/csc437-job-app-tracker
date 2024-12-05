@@ -77,12 +77,12 @@ export class HomeViewElement extends View<Model, Msg> {
     main {
       padding: 20px;
       font-family: Poppins, "Arial", sans-serif;
-      background-color: #f4f7fc;
+      background-color: var(--color-background-page);
     }
     
     /* Dashboard Section Styling */
     .dashboard-section {
-      background: white;
+      background-color: var(--color-background-section);
       padding: 20px;
       border-radius: 8px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -90,7 +90,7 @@ export class HomeViewElement extends View<Model, Msg> {
     }
 
     .section-title {
-      color: #333;
+      color: var(--color-text-statistics);
       font-size: 1.6em;
       font-weight: 600;
       margin-bottom: 20px;
@@ -99,15 +99,20 @@ export class HomeViewElement extends View<Model, Msg> {
     .statistics {
       margin-bottom: 20px;
       font-size: 1.1em;
-      color: #555;
+      color: var(--color-text-statistics);
     }
 
     .statistics p {
       margin: 8px 0;
     }
 
+    h3 {
+      color: var(--color-text-statistics);
+    }
+
     /* Recent Applications Styling */
     .recent-applications {
+      color: var(--color-text-statistics);
       display: flex;
       justify-content: space-between;
       gap: 15px;
@@ -122,51 +127,13 @@ export class HomeViewElement extends View<Model, Msg> {
       width: 18%;
       transition: background 0.3s ease, box-shadow 0.3s ease;
       text-align: center;
-      color: white;
+      color: 
     }
 
     .app-card p {
       margin: 5px 0;
       font-size: 1.1em;
-    }
-
-    /* Search Section Styling */
-    .search-section {
-      margin-top: 20px;
-    }
-
-    .search-bar {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    input {
-      padding: 12px 15px;
-      border-radius: 25px;
-      border: 1px solid #ccc;
-      width: 70%;
-      font-size: 1em;
-      outline: none;
-    }
-
-    input:focus {
-      border-color: #0056b3;
-    }
-
-    button {
-      background-color: #0056b3;
-      color: white;
-      padding: 12px 25px;
-      border: none;
-      border-radius: 25px;
-      cursor: pointer;
-      font-size: 1em;
-      transition: background-color 0.3s ease;
-    }
-
-    button:hover {
-      background-color: #004494;
+      font-color: var(--color-text);
     }
 
     /* Responsive Design */

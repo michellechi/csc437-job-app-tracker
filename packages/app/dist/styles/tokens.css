@@ -18,10 +18,12 @@
     --color-accent-inverted: rgb(129, 212, 250);
     --color-background-header: var(--color-accent);
     --color-background-page: #f2f2f2a3;
+    --color-background-section: white;
     --color-link: #e46212;
     --color-link-inverted: var(--color-accent-inverted);
     --color-text: #e9ecef;
     --color-text-inverted: rgb(255 255 255);
+    --color-text-statistics: black;
     --color-title: white;
     --color-gray: #808080; /* Added gray for hover effect */
     --color-dark-gray: #4b5563; /* Added dark gray for dark mode */
@@ -57,7 +59,9 @@ body.dark-mode {
     /* Tailwind dark mode colors */
     --color-background-header: #3f3f3f;
     --color-background-page: #575757;
+    --color-background-section: #3f3f3f;
     --color-text: white;
+    --color-text-statistics: white;
     --color-link: var(--color-text);
     --color-text-inverted: #ffffff;
     --color-title: var(--color-text);
