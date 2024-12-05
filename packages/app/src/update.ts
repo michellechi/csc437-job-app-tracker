@@ -57,7 +57,7 @@ export default function update(
             break;
 
         case "recipes/search":
-            console.log("Dispatching search query:", message[1].query);
+            console.log("DISPATCHING SEARCH QUERY:", message[1].query);
             handleRecipeSearch(message[1].query, apply, user);
             break;
 
