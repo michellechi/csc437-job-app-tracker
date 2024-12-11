@@ -1,4 +1,4 @@
-// src/pages/recipe.ts
+// src/pages/application.ts
 import renderPage from "./renderPage";
 // @ts-ignore
 import { css, html } from "@calpoly/mustang/server";

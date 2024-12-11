@@ -3,8 +3,6 @@ import { html, LitElement } from "lit";
 
 import { HeaderElement } from "./components/header";
 import { HomeViewElement } from "./views/home-view";
-import { RecipeViewElement } from "./views/recipe-view";
-import { RecipeSearchViewElement } from "./views/recipe-search-view.ts";
 import { AboutViewElement } from "./views/about-view.ts";
 import { LoginViewElement } from "./views/login-view";
 import { ApplicationViewElement } from "./views/application-view.ts";
@@ -17,9 +15,7 @@ import update from "./update";
 class AppElement extends LitElement {
     static uses = define({
         "home-view": HomeViewElement,
-        "recipe-view": RecipeViewElement,
         "login-view": LoginViewElement,
-        "recipe-search-view": RecipeSearchViewElement,
         "about-view": AboutViewElement,
         "application-view": ApplicationViewElement,
         "application-search-view": ApplicationSearchViewElement,
@@ -27,7 +23,7 @@ class AppElement extends LitElement {
         "mu-store": class AppStore extends Store.Provider<Model,
             Msg> {
             constructor() {
-                super(update, init, "guru:auth");
+                super(update, init, "apptrak:auth");
             }
         }
     });
@@ -44,21 +40,9 @@ class AppElement extends LitElement {
 
 const routes = [
     {
-        path: "/app/recipes/:id",
-        view: (params: Switch.Params) => html`
-            <recipe-view itemId="${params.id}"></recipe-view>
-        `
-    },
-    {
         path: "/app/login",
         view: () => html`
             <login-view></login-view>`
-    },
-    {
-        path: "/app/recipe-search-view",
-        view: () => html`
-            <recipe-search-view></recipe-search-view>
-        `
     },
     {
         path: "/app/about-view",
@@ -96,16 +80,15 @@ define({
     "mu-history": History.Provider,
     "mu-store": class AppStore extends Store.Provider<Model, Msg> {
         constructor() {
-            super(update, { cartItems: [], companys: [], totalCost: 0,  recipes:[], applications:[]}, "guru:auth");
+            super(update, { companys: [], totalCost: 0, applications:[] }, "apptrak:auth");
         }
     },
     "mu-switch": class AppSwitch extends Switch.Element {
         constructor() {
-            super(routes, "guru:history", "guru:auth");
+            super(routes, "apptrak:history", "apptrak:auth");
         }
     },
-    "grocery-guru-app": AppElement,
+    "apptrak-app": AppElement,
     "all-header": HeaderElement,
-    "recipe-view": RecipeViewElement,
     "application-view": ApplicationViewElement
 });

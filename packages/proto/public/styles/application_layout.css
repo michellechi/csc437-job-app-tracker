@@ -5,7 +5,7 @@
     border-radius: 8px;
 }
 
-.recipe-header {
+.application-header {
     text-align: center;
     margin-bottom: 20px;
 }
@@ -16,7 +16,7 @@
     gap: 20px;
 }
 
-.recipe-body {
+.application-body {
     display: flex;
     justify-content: space-between;
     padding: 20px;
@@ -31,17 +31,17 @@
     list-style-position: inside;
     line-height: 1.6;
 }
-.recipe-notes {
+.application-notes {
     margin-top: 20px;
     padding-left: 20px;
     border: 2px solid;
 }
-.recipe-image {
+.application-image {
     text-align: center;
     margin: 20px 0;
 }
 
-.recipe-image img {
+.application-image img {
     max-width: 100%;
     height: auto;
     border-radius: 8px;

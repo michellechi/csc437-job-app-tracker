@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AppTrak</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+
+    <script type="importmap">
+        {
+            "imports": {
+                "@calpoly/mustang": "https://unpkg.com/@calpoly/mustang"
+            }
+        }
+    </script>
+    <script type="module">
+        import { define } from "@calpoly/mustang";
+        import {HeaderElement} from "../scripts/header.js";
+        import {ApplicationCard} from "../scripts/application-card.js";
+
+        define({
+            "grocery-link": GroceryLink,
+            "all-header": HeaderElement,
+            "application-card": ApplicationCard
+        })
+        HeaderElement.initializeOnce()
+
+    </script>
+
+    <link rel="stylesheet" href="../styles/reset.css">
+    <link rel="stylesheet" href="../styles/tokens.css">
+    <link rel="stylesheet" href="../styles/page.css"/>
+    <link rel="stylesheet" href="../styles/header_layout.css">
+    <link rel="stylesheet" href="../styles/application_layout.css">
+</head>
+<body>
+
+    <application-card>
+        <span slot="title">Software Engineer</span>
+        <span slot="companyName">Facebook</span>
+        <span slot="status">Interview Scheduled</span>
+        <span slot="appliedDate">2023-11-01</span>
+        <span slot="address">17 Avenue</span>
+        <span slot="city">Los Angeles</span>
+        <span slot="state">California</span>
+        <span slot="notes">Just waiting.</span>
+    </application-card>
+
+</body>
+</html>

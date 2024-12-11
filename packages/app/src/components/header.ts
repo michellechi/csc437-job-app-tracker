@@ -32,7 +32,7 @@ export class HeaderElement extends LitElement {
       <header class="header_layout">
         <h1>AppTrak</h1>
         <nav class="nav_links">
-          <a href="../app">Home</a>
+          <a href="../app">Dashboard</a>
           <a href="../app/application-search-view">Applications</a>
         </nav>
         <div class="action-container">

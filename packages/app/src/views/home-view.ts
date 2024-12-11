@@ -12,7 +12,7 @@ export class HomeViewElement extends View<Model, Msg> {
   searchQuery: string = "";
 
   constructor() {
-    super("guru:model"); // Connect to mu-store
+    super("apptrak:model"); // Connect to mu-store
   }
 
   connectedCallback() {

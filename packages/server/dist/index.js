@@ -22,10 +22,8 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   mod
 ));
 var import_express = __toESM(require("express"));
-var import_recipe_svc_mongo = __toESM(require("./services/recipe-svc-mongo"));
 var import_application_svc_mongo = __toESM(require("./services/application-svc-mongo"));
 var import_auth = __toESM(require("./routes/auth"));
-var import_recipes = __toESM(require("./routes/recipes"));
 var import_companys = __toESM(require("./routes/companys"));
 var import_applications = __toESM(require("./routes/applications"));
 var import_mongo = require("./services/mongo");
@@ -38,7 +36,6 @@ console.log("Serving static files from ", staticDir);
 app.use(import_express.default.static(staticDir));
 app.use(import_express.default.json());
 app.use("/auth", import_auth.default);
-app.use("/api/recipes", import_recipes.default);
 app.use("/api/applications", import_applications.default);
 app.use("/api/companys", import_companys.default);
 app.get("/hello", (_, res) => {
@@ -56,16 +53,6 @@ app.get("/login", (req, res) => {
 app.get("/register", (req, res) => {
   const page = new import_auth2.RegistrationPage();
   res.set("Content-Type", "text/html").send(page.render());
-});
-app.get("/recipe/:recipeId", async (req, res) => {
-  const { recipeId } = req.params;
-  try {
-    const data = await import_recipe_svc_mongo.default.get(recipeId);
-    const recipePage = new Recipe(data);
-    res.set("Content-Type", "text/html").send(recipePage.render());
-  } catch (error) {
-    res.status(500).send("Error fetching recipe.");
-  }
 });
 app.get("/application/:appId", async (req, res) => {
   const { appId } = req.params;

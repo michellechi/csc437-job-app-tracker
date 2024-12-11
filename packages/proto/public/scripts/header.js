@@ -8,8 +8,7 @@ export class HeaderElement extends HTMLElement {
                 <h1>HireGround</h1>
                 <nav class="nav_links">
                     <a href="../index.html">Home</a>
-                    <a href="../nav_links/companys.html">Companys</a>
-                    <a href="../nav_links/recipes.html">Recipes</a>
+                    <a href="../nav_links/applications.html">Applications</a>
                     <a href="../nav_links/about.html">About</a>
                 </nav>
                 <div class="dark-mode-container">

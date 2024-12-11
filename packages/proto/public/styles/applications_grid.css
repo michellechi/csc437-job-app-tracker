@@ -1,29 +1,29 @@
-.companys_grid{
+.application_grid{
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
     padding: 40px 20px;
 }
 
-.companys_grid_card{
+.application_grid_card{
     background-color: white;
     border-radius: 8px;
     overflow: hidden;
     border-style: solid;
 }
 
-.company_image{
+.application_image{
     width: 100%;
     height: 40%;
     object-fit: cover;
 }
 
-.company_content{
+.application_content{
     padding: 20px;
     text-align: center;
 }
 
-.company_button{
+.application_button{
     background-color: white;
     padding: 10px 15px;
     cursor: pointer;

@@ -5,7 +5,7 @@ import { Model } from "../model";
 import { Msg } from "../messages";
 export class AboutViewElement extends View<Model, Msg> {
     constructor() {
-        super("guru:model"); // Connect to mu-store
+        super("apptrak:model"); // Connect to mu-store
     }
     render() {
         return html`

@@ -10,7 +10,7 @@ export class ApplicationSearchViewElement extends View<Model, Msg> {
   searchQuery: string = ""; // Query for searching applications
 
   constructor() {
-    super("guru:model"); // Connect to mu-store
+    super("apptrak:model"); // Connect to mu-store
   }
 
   connectedCallback() {

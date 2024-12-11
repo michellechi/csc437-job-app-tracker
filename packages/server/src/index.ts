@@ -1,10 +1,7 @@
 // src/index.ts
 import express, { Request, Response } from "express";
-import { RecipePage } from "./pages/recipe";
-import Recipes_Mongo from "./services/recipe-svc-mongo";
 import Application_Mongo from "./services/application-svc-mongo";
 import auth, { authenticateUser } from "./routes/auth";
-import recipes from "./routes/recipes";
 import companys from "./routes/companys";
 import applications from "./routes/applications";
 import { connect } from "./services/mongo"; // Connect to the database
@@ -27,13 +24,10 @@ app.use(express.json());
 // Authentication routes
 app.use("/auth", auth);
 
-// Protected routes (example: recipes)
-app.use("/api/recipes", recipes);
+// Protected routes
 app.use("/api/applications", applications);
 // Companys API routes
 app.use("/api/companys", companys);
-//app.use("/api/recipes", authenticateUser, recipes); // Protect /api/recipes with the authentication middleware
-//app.use("/api/companys", authenticateUser, companys); // Protect /api/recipes with the authentication middleware
 
 // Example route to check if the server is running
 app.get("/hello", (_: Request, res: Response) => {
@@ -55,20 +49,7 @@ app.get("/register", (req: Request, res: Response) => {
     res.set("Content-Type", "text/html").send(page.render());
 });
 
-// Route to get a recipe by ID and render it
-app.get("/recipe/:recipeId", async (req: Request, res: Response) => {
-    const { recipeId } = req.params;
-    try {
-        const data = await Recipes_Mongo.get(recipeId);
-        // Create an instance of Recipe for the response
-        // @ts-ignore
-        const recipePage = new Recipe(data);
-        res.set("Content-Type", "text/html").send(recipePage.render()); // Call render on the instance
-    } catch (error) {
-        res.status(500).send("Error fetching recipe.");
-    }
-});
-
+// Route to get a application by ID and render it
 app.get("/application/:appId", async (req: Request, res: Response) => {
     const { appId } = req.params;
     try {
