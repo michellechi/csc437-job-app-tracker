@@ -53,6 +53,23 @@ export default function update(
             });
             break;
 
+        case "applications/add":
+            const [_, { title, company, appliedDate, status, method, notes }] = message;
+            const newApplication = {
+                id: Math.random().toString(36).substr(2, 9), 
+                title,
+                company,
+                appliedDate,
+                status,
+                method,
+                notes
+            };
+            apply((model) => ({
+                ...model,
+                applications: [...model.applications, newApplication],
+            }));
+            break;
+
         default:
             const unhandled: never = message[0];
             throw new Error(`Unhandled Auth message "${unhandled}"`);

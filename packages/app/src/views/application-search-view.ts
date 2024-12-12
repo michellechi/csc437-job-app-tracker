@@ -1,4 +1,3 @@
-// src/views/application-search-view.ts
 import { define, View } from "@calpoly/mustang";
 import { css, html } from "lit";
 import { state } from "lit/decorators.js";
@@ -7,32 +6,80 @@ import { Msg } from "../messages";
 
 export class ApplicationSearchViewElement extends View<Model, Msg> {
   @state()
-  searchQuery: string = ""; // Query for searching applications
+  searchQuery: string = "";
+
+  @state()
+  showModal: boolean = false; 
+  @state()
+  applicationTitle: string = "";
+  @state()
+  applicationAppliedDate: string = "";
+  @state()
+  applicationStatus: string = "";
+  @state()
+  applicationMethod: string = "";
+  @state()
+  applicationNotes: string = "";
+  @state()
+  companyName: string = "";
+  @state()
+  companyCity: string = "";
+  @state()
+  companyState: string = ""; 
+  @state()
+  companyStreetAddress: string = ""; 
 
   constructor() {
-    super("apptrak:model"); // Connect to mu-store
+    super("apptrak:model");
+  }
+
+  toggleModal() {
+    this.showModal = !this.showModal;
   }
 
   connectedCallback() {
     super.connectedCallback();
     console.log("Component connected. Loading all applications...");
-    this.loadAllApplications(); // Fetch all applications when the component loads
+    this.loadAllApplications();
   }
 
   loadAllApplications() {
-    // Dispatch an action to fetch all applications
     this.dispatchMessage(["applications/load"]);
   }
 
   handleSearch() {
-    const query = this.searchQuery.toLowerCase(); // Normalize the query
+    const query = this.searchQuery.toLowerCase();
     console.log("Search query:", query);
-    this.dispatchMessage(["applications/search", { query }]); // Dispatch the search action for applications
-    this.searchQuery = ""; // Reset search query
+    this.dispatchMessage(["applications/search", { query }]); 
+    this.searchQuery = ""; 
+  }
+
+  handleAddApplication() {
+    const newCompany = {
+      name: this.companyName,
+      items: [],
+      city: this.companyCity,
+      state: this.companyState,
+      streetAddress: this.companyStreetAddress,
+    };
+  
+    this.dispatchMessage([
+      "applications/add",
+      {
+        title: this.applicationTitle,
+        company: newCompany,
+        appliedDate: new Date(),
+        status: this.applicationStatus,
+        method: this.applicationMethod,
+        notes: this.applicationNotes,
+      },
+    ]);
+  
+    this.toggleModal();
   }
 
   render() {
-    const { applications = [] } = this.model; // Fetch applications from model
+    const { applications = [] } = this.model;
     return html`
       <main>
         <section class="search-section">
@@ -49,7 +96,120 @@ export class ApplicationSearchViewElement extends View<Model, Msg> {
             <button @click="${this.handleSearch}">Search</button>
           </div>
         </section>
-
+  
+        <!-- Add Application Button -->
+        <section class="add-application-section">
+          <button @click="${this.toggleModal}">Add Application</button>
+        </section>
+  
+        <!-- Modal for Adding an Application -->
+        ${this.showModal
+          ? html`
+              <div class="modal">
+                <div class="modal-content">
+                  <h3>Add New Application</h3>
+  
+                  <!-- Application Title -->
+                  <label for="title">Job Title</label>
+                  <input
+                    type="text"
+                    id="title"
+                    .value="${this.applicationTitle}"
+                    @input="${(e: Event) =>
+                      (this.applicationTitle = (e.target as HTMLInputElement).value)}"
+                  />
+  
+                  <!-- Company Information -->
+                  <label for="company-name">Company Name</label>
+                  <input
+                    type="text"
+                    id="company-name"
+                    .value="${this.companyName}"
+                    @input="${(e: Event) =>
+                      (this.companyName = (e.target as HTMLInputElement).value)}"
+                  />
+                  <label for="company-city">City</label>
+                  <input
+                    type="text"
+                    id="company-city"
+                    .value="${this.companyCity}"
+                    @input="${(e: Event) =>
+                      (this.companyCity = (e.target as HTMLInputElement).value)}"
+                  />
+                  <label for="company-state">State</label>
+                  <input
+                    type="text"
+                    id="company-state"
+                    .value="${this.companyState}"
+                    @input="${(e: Event) =>
+                      (this.companyState = (e.target as HTMLInputElement).value)}"
+                  />
+                  <label for="company-street-address">Street Address</label>
+                  <input
+                    type="text"
+                    id="company-street-address"
+                    .value="${this.companyStreetAddress}"
+                    @input="${(e: Event) =>
+                      (this.companyStreetAddress = (e.target as HTMLInputElement).value)}"
+                  />
+  
+                  <!-- Application Date -->
+                  <label for="applied-date">Application Date</label>
+                  <input
+                    type="date"
+                    id="applied-date"
+                    .value="${this.applicationAppliedDate}"
+                    @input="${(e: Event) =>
+                      (this.applicationAppliedDate = (e.target as HTMLInputElement).value)}"
+                  />
+  
+                  <!-- Application Status -->
+                  <label for="status">Application Status</label>
+                  <select
+                    id="status"
+                    .value="${this.applicationStatus}"
+                    @change="${(e: Event) =>
+                      (this.applicationStatus = (e.target as HTMLSelectElement).value)}"
+                  >
+                    <option value="Pending">Pending</option>
+                    <option value="Submitted">Submitted</option>
+                    <option value="Interview Scheduled">Interview Scheduled</option>
+                    <option value="Accepted">Accepted</option>
+                    <option value="Rejected">Rejected</option>
+                  </select>
+  
+                  <!-- Application Method -->
+                  <label for="method">Application Method</label>
+                  <select
+                    id="method"
+                    .value="${this.applicationMethod}"
+                    @change="${(e: Event) =>
+                      (this.applicationMethod = (e.target as HTMLSelectElement).value)}"
+                  >
+                    <option value="Company Site">Company Site</option>
+                    <option value="Email">Email</option>
+                    <option value="Referral">Referral</option>
+                    <option value="LinkedIn">LinkedIn</option>
+                    <option value="Recruiter">Recruiter</option>
+                    <option value="Handshake">Handshake</option>
+                  </select>
+  
+                  <!-- Notes -->
+                  <label for="notes">Notes</label>
+                  <textarea
+                    id="notes"
+                    .value="${this.applicationNotes}"
+                    @input="${(e: Event) =>
+                      (this.applicationNotes = (e.target as HTMLTextAreaElement).value)}"
+                  ></textarea>
+  
+                  <button @click="${this.handleAddApplication}">Submit Application</button>
+                  <button @click="${this.toggleModal}">Cancel</button>
+                </div>
+              </div>
+            `
+          : ""}
+  
         <section class="results-section">
           <h2>Results</h2>
           ${applications.length === 0
@@ -199,6 +359,29 @@ export class ApplicationSearchViewElement extends View<Model, Msg> {
       font-family: 'Poppins', Arial, sans-serif;
       border-radius: 25px;
     }
+
+    .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 500px;
+  }
+
+  .modal button {
+    margin-top: 10px;
+  }
 
     @media (max-width: 600px) {
       .search-section {

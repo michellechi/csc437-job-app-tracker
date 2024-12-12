@@ -63,6 +63,12 @@ const routes = [
         `
     },
     {
+        path: "/app/add-application",
+        view: () => html`
+            <application-add-view></application-add-view>
+        `
+    },    
+    {
         path: "/app",
         view: () => html`
             <home-view></home-view>
