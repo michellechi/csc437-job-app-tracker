@@ -1,4 +1,4 @@
-import { Company, Application } from "./model";
+import { Company } from "./model";
 
 export type Msg =
     | ["companys/load"]
