@@ -1,30 +1,23 @@
 // @ts-ignore
-import {LitElement, css, html} from "lit";
+import { LitElement, css, html } from "lit";
+import { Events, Auth, Observer} from "@calpoly/mustang";
 
 export class HeaderElement extends LitElement {
-  // Property to hold the username
-  username: string = ''; // Initially empty, will be fetched from storage
+  username: string = ""; 
+  _authObserver = new Observer<Auth.Model>(this, "apptrak:auth");
 
-  // Fetch the username from localStorage or other source when the component is connected
   connectedCallback() {
     super.connectedCallback();
-    // Get username from localStorage (or adjust according to your app's logic)
     this.username = localStorage.getItem('username') || '';
   }
 
-  // Event handler for toggling dark mode
   toggleDarkMode(event: any) {
     const isChecked = event.target.checked;
     document.body.classList.toggle("dark-mode", isChecked);
   }
 
-  // Event handler for signing out
-  signOut() {
-    // Clear the username from localStorage (or adjust to your logic)
-    localStorage.removeItem('username');
-    // Reset the username property and re-render the component
-    this.username = '';
-    this.requestUpdate(); // Re-render after state change
+  signOut(ev:MouseEvent) {
+    Events.relay(ev, "auth:message", ["auth/signout"]);
   }
 
   render() {
@@ -49,7 +42,6 @@ export class HeaderElement extends LitElement {
             </label>
           </div>
 
-          <!-- Conditionally render username or login link -->
           <div class="login">
             ${this.username
               ? html`

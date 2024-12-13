@@ -54,6 +54,5 @@ Run server in production:
 ps -eaf
 // look for http-server process
 kill process_id
-npm run start:proto
-nohup npm run start:proto
+npm run start:app
 ```

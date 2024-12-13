@@ -28,6 +28,10 @@ export class ApplicationSearchViewElement extends View<Model, Msg> {
   companyState: string = ""; 
   @state()
   companyStreetAddress: string = ""; 
+  @state()
+  successMessage: string = ""; 
+  @state()
+  errorMessage: string = "";
 
   constructor() {
     super("apptrak:model");
@@ -63,20 +67,46 @@ export class ApplicationSearchViewElement extends View<Model, Msg> {
       streetAddress: this.companyStreetAddress,
     };
   
-    this.dispatchMessage([
-      "applications/add",
-      {
+    fetch("/applications/add", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
         title: this.applicationTitle,
         company: newCompany,
         appliedDate: new Date(),
         status: this.applicationStatus,
         method: this.applicationMethod,
         notes: this.applicationNotes,
-      },
-    ]);
-  
-    this.toggleModal();
+      }),
+    })
+      .then((response) => {
+        if (response.ok) {
+          console.log("Application added successfully!");
+          this.successMessage = "Application added successfully!";
+          this.toggleModal();
+          this.clearForm();
+          window.location.href = "/app/application-search-view";
+        } else {
+          throw new Error("Failed to add application");
+        }
+      })
+      .catch((error) => {
+        console.error("Application addition failed:", error);
+        this.errorMessage = "Failed to add application. Please try again.";
+      });
   }
+  
+  clearForm() {
+    this.applicationTitle = "";
+    this.companyName = "";
+    this.companyCity = "";
+    this.companyState = "";
+    this.companyStreetAddress = "";
+    this.applicationAppliedDate = "";
+    this.applicationStatus = "Pending";
+    this.applicationMethod = "";
+    this.applicationNotes = "";
+  }  
 
   render() {
     const { applications = [] } = this.model;
@@ -96,19 +126,19 @@ export class ApplicationSearchViewElement extends View<Model, Msg> {
             <button @click="${this.handleSearch}">Search</button>
           </div>
         </section>
-  
+
         <!-- Add Application Button -->
         <section class="add-application-section">
           <button @click="${this.toggleModal}">Add Application</button>
         </section>
-  
+
         <!-- Modal for Adding an Application -->
         ${this.showModal
           ? html`
               <div class="modal">
                 <div class="modal-content">
                   <h3>Add New Application</h3>
-  
+
                   <!-- Application Title -->
                   <label for="title">Job Title</label>
                   <input
@@ -118,7 +148,7 @@ export class ApplicationSearchViewElement extends View<Model, Msg> {
                     @input="${(e: Event) =>
                       (this.applicationTitle = (e.target as HTMLInputElement).value)}"
                   />
-  
+
                   <!-- Company Information -->
                   <label for="company-name">Company Name</label>
                   <input
@@ -152,7 +182,7 @@ export class ApplicationSearchViewElement extends View<Model, Msg> {
                     @input="${(e: Event) =>
                       (this.companyStreetAddress = (e.target as HTMLInputElement).value)}"
                   />
-  
+
                   <!-- Application Date -->
                   <label for="applied-date">Application Date</label>
                   <input
@@ -162,7 +192,7 @@ export class ApplicationSearchViewElement extends View<Model, Msg> {
                     @input="${(e: Event) =>
                       (this.applicationAppliedDate = (e.target as HTMLInputElement).value)}"
                   />
-  
+
                   <!-- Application Status -->
                   <label for="status">Application Status</label>
                   <select
@@ -177,7 +207,7 @@ export class ApplicationSearchViewElement extends View<Model, Msg> {
                     <option value="Accepted">Accepted</option>
                     <option value="Rejected">Rejected</option>
                   </select>
-  
+
                   <!-- Application Method -->
                   <label for="method">Application Method</label>
                   <select
@@ -193,7 +223,7 @@ export class ApplicationSearchViewElement extends View<Model, Msg> {
                     <option value="Recruiter">Recruiter</option>
                     <option value="Handshake">Handshake</option>
                   </select>
-  
+
                   <!-- Notes -->
                   <label for="notes">Notes</label>
                   <textarea
@@ -202,14 +232,14 @@ export class ApplicationSearchViewElement extends View<Model, Msg> {
                     @input="${(e: Event) =>
                       (this.applicationNotes = (e.target as HTMLTextAreaElement).value)}"
                   ></textarea>
-  
+
                   <button @click="${this.handleAddApplication}">Submit Application</button>
                   <button @click="${this.toggleModal}">Cancel</button>
                 </div>
               </div>
             `
           : ""}
-  
+
         <section class="results-section">
           <h2>Results</h2>
           ${applications.length === 0
@@ -228,40 +258,47 @@ export class ApplicationSearchViewElement extends View<Model, Msg> {
               `}
         </section>
       </main>
+
     `;
   }
 
   static styles = css`
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
+    /* General Container */
     main {
       padding: 30px;
       font-family: 'Poppins', sans-serif;
-      background-color: #f4f7fa;
+      background-color: var(--color-background-page);
       color: #333;
       display: flex;
       flex-direction: column;
       align-items: center;
+      min-height: 100vh;
     }
 
+    /* Search Section */
     .search-section {
       display: flex;
       flex-direction: column;
       align-items: center;
       margin-bottom: 30px;
-      max-width: 700px;
       width: 100%;
+      max-width: 700px;
     }
 
+    /* Title */
     h2 {
       font-size: 1.8rem;
-      color: #444;
+      color: var(--color-text-statistics);
       font-weight: 600;
       margin-bottom: 15px;
     }
 
+    /* Search Bar */
     .search-bar {
       display: flex;
+      flex-direction: row;
       width: 100%;
       max-width: 600px;
       border-radius: 40px;
@@ -269,7 +306,7 @@ export class ApplicationSearchViewElement extends View<Model, Msg> {
       overflow: hidden;
     }
 
-    input {
+    .search-bar input {
       flex: 1;
       padding: 15px;
       font-size: 1rem;
@@ -283,15 +320,15 @@ export class ApplicationSearchViewElement extends View<Model, Msg> {
       background-color: white;
     }
 
-    input:focus {
+    .search-bar input:focus {
       border-color: #007bff;
     }
 
-    button {
+    .search-bar button {
       padding: 15px 20px;
       font-size: 1rem;
       cursor: pointer;
-      border: 1px solid #ccc;
+      border: 1px solid #007bff;
       border-left: none;
       border-top-right-radius: 30px;
       border-bottom-right-radius: 30px;
@@ -301,10 +338,26 @@ export class ApplicationSearchViewElement extends View<Model, Msg> {
       margin-left: 10px;
     }
 
-    button:hover {
+    .search-bar button:hover {
       background-color: #0056b3;
     }
 
+    .add-application-section button {
+      background-color: #007bff; 
+      color: white;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none; 
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .add-application-section button:hover {
+      background-color: #0056b3;
+    }
+
+    /* Results Section */
     .results-section {
       margin-top: 20px;
       width: 100%;
@@ -313,7 +366,7 @@ export class ApplicationSearchViewElement extends View<Model, Msg> {
 
     .results-section h2 {
       font-size: 1.6rem;
-      color: #444;
+      color: var(--color-text-statistics);
       font-weight: 600;
       margin-bottom: 15px;
     }
@@ -329,7 +382,7 @@ export class ApplicationSearchViewElement extends View<Model, Msg> {
       margin-bottom: 10px;
       border: 1px solid #e0e0e0;
       border-radius: 12px;
-      background-color: white;
+      background-color: var(--color-results-li);
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
       transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
     }
@@ -350,39 +403,80 @@ export class ApplicationSearchViewElement extends View<Model, Msg> {
       color: #0056b3;
     }
 
-    .application-list a:visited {
-      color: #6c757d;
-    }
-
-    .search-bar input,
-    .search-bar button {
-      font-family: 'Poppins', Arial, sans-serif;
-      border-radius: 25px;
-    }
-
     .modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 10px;
+    }
 
-  .modal-content {
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    width: 500px;
-  }
+    .modal-content {
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px; /* Fully rounded corners */
+      width: 30%;
+      max-height: 90%;
+      overflow-y: auto;
+    }
 
-  .modal button {
-    margin-top: 10px;
-  }
+    .modal h3 {
+      margin-bottom: 20px;
+      font-size: 1.5rem;
+    }
 
+    .modal label {
+      font-weight: 600;
+      margin-top: 10px;
+    }
+
+    .modal input,
+    .modal select,
+    .modal textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      font-size: 1rem;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    .modal textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .modal button {
+      padding: 12px 20px;
+      font-size: 1rem;
+      cursor: pointer;
+      border-radius: 8px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      transition: background-color 0.3s ease;
+      margin-right: 10px;
+      margin-top: 10px;
+    }
+
+    .modal button:hover {
+      background-color: #0056b3;
+    }
+
+    .modal button:last-child {
+      background-color: #ccc;
+    }
+
+    .modal button:last-child:hover {
+      background-color: #bbb;
+    }
+
+    /* Responsive Design */
     @media (max-width: 600px) {
       .search-section {
         margin-bottom: 20px;
@@ -394,18 +488,43 @@ export class ApplicationSearchViewElement extends View<Model, Msg> {
         max-width: 100%;
       }
 
-      input {
+      .search-bar input,
+      .search-bar button {
         width: 100%;
         margin-bottom: 10px;
-      }
-
-      button {
-        width: 100%;
       }
 
       .application-list {
         padding: 0 10px;
       }
+
+      /* Modal */
+      .modal-content {
+        width: 90%;
+        padding: 20px;
+      }
+      
+      .modal input,
+      .modal select,
+      .modal textarea {
+        font-size: 0.9rem;
+      }
+
+      .modal button {
+        width: 100%;
+        margin-top: 10px;
+      }
+        
+    }
+      
+    /* Dark Mode */
+    :host([theme="dark"]) {
+      --background-color: #121212;
+      --primary-text-color: #f4f7fa;
+      --secondary-text-color: #b0b0b0;
+      --card-background: #333;
+      --button-background: #6200ea;
+      --button-hover-background: #3700b3;
     }
   `;
 }
