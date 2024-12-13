@@ -26,6 +26,7 @@ export interface Model {
     companys: Company[];
     totalCost: number;
     applications: Application[];
+    application?: Application;
 }
 
 export const init: Model = {
