@@ -1,4 +1,4 @@
-import { define, Form, InputArray, View } from "@calpoly/mustang";
+import { define, Form, InputArray, View, History } from "@calpoly/mustang";
 import { html } from "lit";
 import { state } from "lit/decorators.js";
 import { Model } from "../model";
@@ -13,11 +13,12 @@ export class ApplicationEditElement extends View<Model, Msg> {
   });
 
   @property()
-  applicationId?: string;
+  id: string = "";
 
   @state()
   get application(): Application | undefined {
-    return this.model.applications.find(app => app.id === this.applicationId);
+    if(!this.id) return undefined;
+    return this.model.applications.find(app => app.id === this.id);
   }
 
   render() {
@@ -25,7 +26,7 @@ export class ApplicationEditElement extends View<Model, Msg> {
       <main class="page">
         <mu-form
           .init=${this.application}
-          @mu-form:submit>
+          @mu-form:submit=${this._handleSubmit}>
           <div class="form-group">
             <label for="title">Application Title</label>
             <input type="text" id="title" name="title" .value="${this.application?.title}" required />
@@ -58,5 +59,21 @@ export class ApplicationEditElement extends View<Model, Msg> {
           <button type="submit">Save Application</button>
         </mu-form>
       </main>`;
+  }
+
+  _handleSubmit(event: Form.SubmitEvent<Application>) {
+    this.dispatchMessage([
+      "application/save",
+      {
+        applicationId: this.id,
+        application: event.detail,
+        onSuccess: () =>
+          History.dispatch(this, "history/navigate", {
+            href: `/app/application/${this.id}`
+          }),
+        onFailure: (error: Error) =>
+          console.log("ERROR:", error)
+      }
+    ]);
   }
 }

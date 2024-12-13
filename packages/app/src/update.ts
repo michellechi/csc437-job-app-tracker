@@ -2,6 +2,7 @@
 import { Auth, Update } from "@calpoly/mustang";
 import { Msg } from "./messages";
 import { Model } from "./model";
+import { Application } from "./model";
 
 export default function update(
     message: Msg,
@@ -68,6 +69,19 @@ export default function update(
                 ...model,
                 applications: [...model.applications, newApplication],
             }));
+            break;
+
+        case "application/save":
+            saveApplication(message[1], user)
+            .then((application) => apply((model) => ({ ...model, application })))
+            .then(() => {
+                const { onSuccess } = message[1];
+                if (onSuccess) onSuccess();
+            })
+            .catch((error: Error) => {
+                const { onFailure } = message[1];
+                if (onFailure) onFailure(error);
+            });
             break;
 
         default:
@@ -141,3 +155,31 @@ function handleApplicationSearch(
             console.error("Failed to fetch applications:", error);
         });
 }
+
+function saveApplication(
+    msg: {
+      applicationId: string;
+      application: Application;
+    },
+    user: Auth.User
+  ) {
+    return fetch(`/api/applications/${msg.applicationId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        ...Auth.headers(user),
+      },
+      body: JSON.stringify(msg.application),
+    })
+      .then((response: Response) => {
+        if (response.status === 200) return response.json();
+        else
+          throw new Error(
+            `Failed to save application with ID ${msg.applicationId}`
+          );
+      })
+      .then((json: unknown) => {
+        if (json) return json as Application;
+        return undefined;
+      });
+  }
